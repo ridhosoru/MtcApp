@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="call">
+    <file>pngegg.png</file>
+  </qresource>
+</RCC>

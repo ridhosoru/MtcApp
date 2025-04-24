@@ -145,19 +145,6 @@
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
-     <widget class="QPushButton" name="callButton">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>61</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
     </widget>
     <widget class="QFrame" name="frame_4">
      <property name="geometry">
@@ -180,20 +167,10 @@
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
-     <widget class="QTableView" name="tableView">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>60</y>
-        <width>831</width>
-        <height>251</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>30</x>
         <y>10</y>
         <width>91</width>
         <height>31</height>
@@ -211,6 +188,74 @@
       <property name="text">
        <string>TASK</string>
       </property>
+     </widget>
+     <widget class="QPushButton" name="callButton">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>10</y>
+        <width>51</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normalon>:/call/pngegg.png</normalon>
+       </iconset>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>60</y>
+        <width>801</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text">
+        <string>Status</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Time Start</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Location</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Machine</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Comments</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Solve</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Problem Solve</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Time Finish</string>
+       </property>
+      </column>
      </widget>
     </widget>
     <widget class="QFrame" name="frame_5">
@@ -271,6 +316,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="image/callimg.qrc"/>
+ </resources>
  <connections/>
 </ui>

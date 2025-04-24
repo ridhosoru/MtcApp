@@ -33,7 +33,7 @@ border-radius:10px;</string>
     <property name="frameShadow">
      <enum>QFrame::Shadow::Raised</enum>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="okCallButton">
      <property name="geometry">
       <rect>
        <x>530</x>
@@ -100,7 +100,7 @@ QPushButton:pressed{
       <string>Cancel</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="loccomboBox">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -113,7 +113,7 @@ QPushButton:pressed{
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_2">
+    <widget class="QComboBox" name="machinecomboBox">
      <property name="geometry">
       <rect>
        <x>220</x>
@@ -126,26 +126,13 @@ QPushButton:pressed{
       <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox_3">
+    <widget class="QComboBox" name="probcomboBox">
      <property name="geometry">
       <rect>
        <x>440</x>
        <y>30</y>
        <width>161</width>
        <height>24</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="lineEdit">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>80</y>
-       <width>571</width>
-       <height>151</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -202,6 +189,19 @@ QPushButton:pressed{
      </property>
      <property name="text">
       <string>Comment</string>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="commentTextEdit">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>80</y>
+       <width>571</width>
+       <height>151</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
      </property>
     </widget>
    </widget>

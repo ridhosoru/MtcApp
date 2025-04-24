@@ -5,6 +5,10 @@ from PyQt6.QtCore import Qt,QPoint, QTimer
 from PyQt6.QtWidgets import QMessageBox
 import requests
 from datetime import datetime
+from PyQt6.QtGui import QIcon
+from PyQt6.QtCore import QSize
+from PyQt6.QtGui import QStandardItemModel, QStandardItem
+from PyQt6.QtCore import pyqtSignal
 
 class MainWindow(QtWidgets.QMainWindow):
 
@@ -123,6 +127,12 @@ class mainshow(QtWidgets.QMainWindow):
         self.usernameLogin= usernameLogin
         self.userLabel.setText("Hi, "+ self.usernameLogin)
         self.callButton.clicked.connect(self.call)
+        self.callButton.setIcon(QIcon("icon/call.png"))
+        self.callButton.setIconSize(QSize(32, 32))
+        self.tableTask()
+    
+    def tableTask(self):
+        model = QStandardItemModel()
     
     def call(self):
         self.callw = callWindow()
@@ -151,6 +161,55 @@ class callWindow(QtWidgets.QMainWindow):
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.dragPos = None
         self.cancelButton.clicked.connect(self.closeCall)
+        #########
+        self.lineList()
+        self.machineList()
+        self.probList()
+        self.okCallButton.clicked.connect(self.okCall)
+
+    def lineList(self):
+        try:
+             url ="http://127.0.0.1:8000/dataLine"
+             response = requests.get(url)
+             if response.status_code == 200 :
+                data = response.json()
+                print(data)
+                self.loccomboBox.addItems(data)
+        except Exception as e:
+                print(e)
+    
+    def machineList(self):
+        try:
+             url ="http://127.0.0.1:8000/dataMachine"
+             response = requests.get(url)
+             if response.status_code == 200 :
+                data = response.json()
+                print(data)
+                self.machinecomboBox.addItems(data)
+        except Exception as e:
+                print(e)
+    
+    def probList(self):
+        try:
+             url ="http://127.0.0.1:8000/dataProblem"
+             response = requests.get(url)
+             if response.status_code == 200 :
+                data = response.json()
+                print(data)
+                self.probcomboBox.addItems(data)
+        except Exception as e:
+                print(e)
+
+    def okCall(self):
+        locc=self.loccomboBox.currentText()
+        machinec=self.machinecomboBox.currentText()
+        probc=self.probcomboBox.currentText()
+        commentText=self.commentTextEdit.toPlainText()
+        dateSt = datetime.now().strftime("%d-%m-%Y")
+        timeSt = datetime.now().strftime("%H:%M:%S")
+        status = "Calling"
+        return dateSt,timeSt,locc,machinec,probc,commentText
+
     
     def closeCall(self):
         self.close()
