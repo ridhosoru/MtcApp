@@ -192,7 +192,7 @@
      <widget class="QPushButton" name="callButton">
       <property name="geometry">
        <rect>
-        <x>690</x>
+        <x>620</x>
         <y>10</y>
         <width>51</width>
         <height>41</height>
@@ -223,7 +223,17 @@
       </column>
       <column>
        <property name="text">
+        <string>Date Time</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Time Start</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Time Respon</string>
        </property>
       </column>
       <column>
@@ -238,7 +248,17 @@
       </column>
       <column>
        <property name="text">
+        <string>Problem</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
         <string>Comments</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Problem After Check</string>
        </property>
       </column>
       <column>
@@ -248,14 +268,53 @@
       </column>
       <column>
        <property name="text">
-        <string>Problem Solve</string>
+        <string>Time Finish</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Time Finish</string>
+        <string>Name Mtc</string>
        </property>
       </column>
+     </widget>
+     <widget class="QPushButton" name="callresponseButton">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>10</y>
+        <width>51</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normalon>:/call/pngegg.png</normalon>
+       </iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="callButton_3">
+      <property name="geometry">
+       <rect>
+        <x>760</x>
+        <y>10</y>
+        <width>51</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normalon>:/call/pngegg.png</normalon>
+       </iconset>
+      </property>
      </widget>
     </widget>
     <widget class="QFrame" name="frame_5">
@@ -317,7 +376,7 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
-  <include location="image/callimg.qrc"/>
+  <include location="icon/callimg.qrc"/>
  </resources>
  <connections/>
 </ui>

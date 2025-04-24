@@ -2,7 +2,7 @@ import sys
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6 import uic
 from PyQt6.QtCore import Qt,QPoint, QTimer
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 import requests
 from datetime import datetime
 from PyQt6.QtGui import QIcon
@@ -130,10 +130,60 @@ class mainshow(QtWidgets.QMainWindow):
         self.callButton.setIcon(QIcon("icon/call.png"))
         self.callButton.setIconSize(QSize(32, 32))
         self.tableTask()
+        self.setupAutoRefresh()
+        self.callresponseButton.clicked.connect(self.callRespon)
+        self.callresponseButton.setIcon(QIcon("icon/respon.png"))
+        self.callresponseButton.setIconSize(QSize(32, 32))
+        self.statusResponseC()
+        
+        # self.setupAutoRefreshrS()
+    
+    
+    def statusResponseC(self):
+        try:
+            url= "http://127.0.0.1:8000/getstatusR"
+            payload = {"status": "calling"}
+            response = requests.post(url, json=payload)
+            if response.status_code == 200:
+                self.callresponseButton.setStyleSheet("background-color: red;")
+        except Exception as e:
+            print(e)
+
+    # def setupAutoRefreshrS(self):
+    #     self.timersR = QTimer()
+    #     self.timersR.timeout.connect(self.statusResponse)
+    #     self.timersR.start(2000)
+
+        
+
+    def callRespon(self):
+        self.responw = responWindow()
+        self.responw.show()
+
     
     def tableTask(self):
-        model = QStandardItemModel()
-    
+        try:
+            url ="http://127.0.0.1:8000/getTask"
+            response = requests.get(url)
+            if response.status_code == 200 :
+               data = response.json()
+               if data :
+                   self.tableWidget.setRowCount(len(data))
+                   for row_idx, row in enumerate(data):
+                       for col_idx, value in enumerate(row):
+                           self.tableWidget.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
+            for i in range(7, 10):
+                self.tableWidget.setColumnWidth(i, 250)
+
+        except Exception as e:
+            print(e)
+
+    def setupAutoRefresh(self):
+        self.timerT = QTimer()
+        self.timerT.timeout.connect(self.tableTask)
+        self.timerT.timeout.connect(self.statusResponseC)
+        self.timerT.start(3000)
+
     def call(self):
         self.callw = callWindow()
         self.callw.show()
@@ -152,6 +202,60 @@ class mainshow(QtWidgets.QMainWindow):
             self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
             self.dragPos = event.globalPosition().toPoint()
             event.accept()
+
+###############
+class responWindow(QtWidgets.QMainWindow):
+    def __init__(self,*args, **kwargs):
+        super().__init__(*args, **kwargs)
+        uic.loadUi("responWindow.ui", self)
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.dragPos = None
+        self.cancelButton.clicked.connect(self.closeW)
+        self.updateTable()
+        self.setupAutoRefresh()
+        self.responseButton.clicked.connect(self.responsCalling)
+    
+    def responsCalling(self):
+        selected_row = self.tableWidget.currentRow()
+        print(selected_row)
+    
+    def updateTable(self):
+        try:
+            url ="http://127.0.0.1:8000/getTask"
+            response = requests.get(url)
+            if response.status_code == 200 :
+               data = response.json()
+               if data :
+                   self.tableWidget.setRowCount(len(data))
+                   for row_idx, row in enumerate(data):
+                       for col_idx, value in enumerate(row):
+                           self.tableWidget.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
+            for i in range(7, 10):
+                self.tableWidget.setColumnWidth(i, 250)
+        except Exception as e:
+            print(e)
+
+    def setupAutoRefresh(self):
+        self.timerT = QTimer()
+        self.timerT.timeout.connect(self.updateTable)
+        self.timerT.start(3000)
+
+
+    def closeW(self):
+        self.close()
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.MouseButton.LeftButton and self.dragPos:
+            self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
+
 ####
 class callWindow(QtWidgets.QMainWindow):
     def __init__(self,*args, **kwargs):
@@ -173,7 +277,6 @@ class callWindow(QtWidgets.QMainWindow):
              response = requests.get(url)
              if response.status_code == 200 :
                 data = response.json()
-                print(data)
                 self.loccomboBox.addItems(data)
         except Exception as e:
                 print(e)
@@ -184,21 +287,19 @@ class callWindow(QtWidgets.QMainWindow):
              response = requests.get(url)
              if response.status_code == 200 :
                 data = response.json()
-                print(data)
                 self.machinecomboBox.addItems(data)
         except Exception as e:
                 print(e)
     
     def probList(self):
         try:
-             url ="http://127.0.0.1:8000/dataProblem"
-             response = requests.get(url)
-             if response.status_code == 200 :
-                data = response.json()
-                print(data)
-                self.probcomboBox.addItems(data)
+            url ="http://127.0.0.1:8000/dataProblem"
+            response = requests.get(url)
+            if response.status_code == 200 :
+               data = response.json()
+               self.probcomboBox.addItems(data)
         except Exception as e:
-                print(e)
+            print(e)
 
     def okCall(self):
         locc=self.loccomboBox.currentText()
@@ -207,10 +308,35 @@ class callWindow(QtWidgets.QMainWindow):
         commentText=self.commentTextEdit.toPlainText()
         dateSt = datetime.now().strftime("%d-%m-%Y")
         timeSt = datetime.now().strftime("%H:%M:%S")
+        timeRs = "-"
         status = "Calling"
-        return dateSt,timeSt,locc,machinec,probc,commentText
+        solve = "-"
+        problemafterc="-"
+        timefinish="-"
+        namemtc="-"
+        try:
+            url = "http://127.0.0.1:8000/taskInput"
+            payload = {"status": status, 
+                       "datestart": dateSt,
+                       "timestart": timeSt,
+                       "timerespon": timeRs,
+                       "location": locc,
+                       "machine": machinec,
+                       "problem": probc,
+                       "commenttxt": commentText,
+                       "problemaftercheck": problemafterc,
+                       "solve": solve,
+                       "timefinish": timefinish,
+                       "namemtc": namemtc,}
+            response = requests.post(url, json=payload)
+            if response.status_code == 200:
+                print("success")
+                self.close()
+            else :
+                print(response.status_code)
+        except Exception as e:
+            print(e)
 
-    
     def closeCall(self):
         self.close()
     

@@ -1,6 +1,7 @@
 from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
 import psycopg2
+from typing import Optional
 
 
 app = FastAPI()
@@ -18,14 +19,17 @@ class User(BaseModel):
 
 class Task(BaseModel):
     status:str
-    datestart:str
-    timestart :str
-    location :str
-    machine :str
-    problem:str
-    commenttxt:str
-    solve:str
-    timefinish:str
+    datestart:Optional[str] = None
+    timestart :Optional[str] = None
+    timerespon:Optional[str] = None
+    location :Optional[str] = None
+    machine :Optional[str] = None
+    problem:Optional[str] = None
+    commenttxt:Optional[str] = None
+    problemaftercheck:Optional[str] = None
+    solve:Optional[str] = None
+    timefinish:Optional[str] = None
+    namemtc:Optional[str] = None
 
 
 
@@ -94,17 +98,32 @@ def sendTask(task:Task):
     with dbconnection() as conn:
         with conn.cursor() as cur:
             try:
-                query = " INSERT INTO tasktable(status,timestart,location,machine,problem,comment,solve,timefinish) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
-                cur.execute(query,(task.status,task.timestart,task.location,task.machine,task.problem,task.commenttxt,task.solve,task.timefinish))
+                query = " INSERT INTO tasktable(status,datestart,timestart,timerespon,location,machine,problem,comment,problemafter_check,solve,timefinish,namemtc) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                cur.execute(query,(task.status,task.datestart,task.timestart,task.timerespon,task.location,
+                            task.machine,task.problem,task.commenttxt,task.problemaftercheck,task.solve,task.timefinish,task.namemtc))
                 conn.commit()
                 return{"status":"success", "message":"send data success"}
             except Exception as e:
                 raise HTTPException(status_code=500, detail=str(e))
 
-
-
-                
-
-
-
-
+@app.get("/getTask")
+def getTask():
+    with dbconnection() as conn:
+        with conn.cursor() as cur :
+            try:
+                query="SELECT * FROM tasktable"
+                cur.execute(query)
+                result= cur.fetchall()
+                return result
+            except Exception as e :
+                raise HTTPException(status_code=500, detail=str(e))
+            
+@app.post("/getstatusR")
+def getstatusR(task:Task):
+    with dbconnection() as conn :
+        with conn.cursor() as cur :
+            query = "SELECT status from tasktable WHERE status =%s"
+            cur.execute(query,(task.status,))
+            result = cur.fetchall()
+            status_list = [row[0] for row in result]
+            return {"status": "success", "data": status_list}

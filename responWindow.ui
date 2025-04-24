@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>840</width>
+    <height>494</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>821</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(233, 233, 233);
+border-radius:10px;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Shadow::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="responseButton">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>370</y>
+       <width>91</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	color: #40916c;
+   border : 2px solid #40916c;
+   border-radius :10px;
+}
+QPushButton:hover{
+	color: #40916c;
+   border : 2px solid #40916c;
+   border-radius :10px;
+   background-color : #b7e4c7;
+}
+QPushButton:pressed{
+   	color: #40916c;
+   border : 2px solid #40916c;
+   border-radius :10px;
+   background-color : #2d6a4f;
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>Respon</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="cancelButton">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>370</y>
+       <width>91</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+   color: #b21e35;
+   border : 2px solid #b21e35;
+   border-radius :10px;
+}
+QPushButton:hover{
+   color: #b21e35;
+   border : 2px solid #b21e35;
+   border-radius :10px;
+   background-color : #ff4d6d;
+}
+QPushButton:pressed{
+   color: #b21e35;
+   border : 2px solid #b21e35;
+   border-radius :10px;
+   background-color :#800f2f ;
+}
+</string>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>781</width>
+       <height>331</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+     <column>
+      <property name="text">
+       <string>Status</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Date Start</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Time Start</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Time Respon</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Location</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Problem</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Comment</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>problem after check</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>solve</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>time finish</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>name mtc</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>840</width>
+     <height>33</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
