@@ -18,7 +18,7 @@ class User(BaseModel):
     password : str
 
 class Task(BaseModel):
-    status:str
+    status:Optional[str] = None
     datestart:Optional[str] = None
     timestart :Optional[str] = None
     timerespon:Optional[str] = None
@@ -118,12 +118,30 @@ def getTask():
             except Exception as e :
                 raise HTTPException(status_code=500, detail=str(e))
             
-@app.post("/getstatusR")
-def getstatusR(task:Task):
+@app.get("/getstatusR")
+def getstatusR():
     with dbconnection() as conn :
         with conn.cursor() as cur :
-            query = "SELECT status from tasktable WHERE status =%s"
-            cur.execute(query,(task.status,))
+            query = "SELECT status from tasktable "
+            cur.execute(query)
             result = cur.fetchall()
             status_list = [row[0] for row in result]
             return {"status": "success", "data": status_list}
+
+        
+
+@app.post("/updaterespon")
+def updateRespon(task:Task):
+    with dbconnection() as conn :
+        with conn.cursor() as cur :
+            try:
+                query = "UPDATE tasktable SET status = %s,timerespon=%s WHERE " \
+                "datestart=%s AND timestart=%s AND location=%s AND machine=%s AND problem=%s AND comment=%s AND problemafter_check=%s AND solve=%s AND timefinish=%s AND namemtc=%s"
+                cur.execute(query,(task.status,task.timerespon,task.datestart,task.timestart,task.location,
+                                task.machine,task.problem,task.commenttxt,task.problemaftercheck,task.solve,task.timefinish,task.namemtc))
+                conn.commit()
+                return {"status":"success", "message":"send data success"}
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))
+
+

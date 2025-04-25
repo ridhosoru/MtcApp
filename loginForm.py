@@ -142,19 +142,17 @@ class mainshow(QtWidgets.QMainWindow):
     def statusResponseC(self):
         try:
             url= "http://127.0.0.1:8000/getstatusR"
-            payload = {"status": "calling"}
-            response = requests.post(url, json=payload)
+            response = requests.get(url)
             if response.status_code == 200:
-                self.callresponseButton.setStyleSheet("background-color: red;")
+                result = response.json()
+                data_list = result.get("data", [])
+                if "Calling" in data_list:
+                    self.callresponseButton.setStyleSheet("background-color: red;")
+                elif "waiting" in data_list:
+                    self.callresponseButton.setStyleSheet("background-color: yellow;")
+
         except Exception as e:
-            print(e)
-
-    # def setupAutoRefreshrS(self):
-    #     self.timersR = QTimer()
-    #     self.timersR.timeout.connect(self.statusResponse)
-    #     self.timersR.start(2000)
-
-        
+            print(e)  
 
     def callRespon(self):
         self.responw = responWindow()
@@ -215,10 +213,45 @@ class responWindow(QtWidgets.QMainWindow):
         self.updateTable()
         self.setupAutoRefresh()
         self.responseButton.clicked.connect(self.responsCalling)
+        self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
+        self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
     
     def responsCalling(self):
         selected_row = self.tableWidget.currentRow()
-        print(selected_row)
+        data = ['status','dateSt','timeSt','timeRs','locc','machinec','probc','commentText','problemafterc','solve','timefinish','namemtc']
+        rowdata={}
+        if selected_row >=0 :
+            #rowdata['status'] = 'waiting'
+            for col in range(self.tableWidget.columnCount()):
+                item = self.tableWidget.item(selected_row, col)
+                rowdata[data[col]]=item.text()
+            rowdata['status'] = 'waiting'
+            rowdata['timeRs'] = datetime.now().strftime("%H:%M:%S")
+            try :
+                url = "http://127.0.0.1:8000/updaterespon"
+                payload = {"status": rowdata['status'],
+                            "datestart": rowdata['dateSt'],
+                            "timestart": rowdata['timeSt'],
+                            "timerespon": rowdata['timeRs'],
+                            "location": rowdata['locc'],
+                            "machine": rowdata['machinec'],
+                            "problem": rowdata['probc'],
+                            "commenttxt": rowdata['commentText'],
+                            "problemaftercheck": rowdata['problemafterc'],
+                            "solve": rowdata['solve'],
+                            "timefinish": rowdata['timefinish'],
+                            "namemtc": rowdata['namemtc']}
+                response = requests.post(url, json=payload)
+                if response.status_code == 200:
+                    print("success")
+                    self.close()
+                else :
+                    print(response.status_code)
+            except Exception as e:
+                print(e)
+                
+
+
     
     def updateTable(self):
         try:
@@ -327,7 +360,7 @@ class callWindow(QtWidgets.QMainWindow):
                        "problemaftercheck": problemafterc,
                        "solve": solve,
                        "timefinish": timefinish,
-                       "namemtc": namemtc,}
+                       "namemtc": namemtc}
             response = requests.post(url, json=payload)
             if response.status_code == 200:
                 print("success")

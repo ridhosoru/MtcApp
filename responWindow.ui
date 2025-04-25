@@ -139,6 +139,11 @@ QPushButton:pressed{
      </column>
      <column>
       <property name="text">
+       <string>machine</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
        <string>Problem</string>
       </property>
      </column>
@@ -164,7 +169,7 @@ QPushButton:pressed{
      </column>
      <column>
       <property name="text">
-       <string>name mtc</string>
+       <string>namemtc</string>
       </property>
      </column>
     </widget>
