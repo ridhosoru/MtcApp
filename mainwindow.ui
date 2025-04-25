@@ -298,7 +298,7 @@
        </iconset>
       </property>
      </widget>
-     <widget class="QPushButton" name="callButton_3">
+     <widget class="QPushButton" name="closecallButton">
       <property name="geometry">
        <rect>
         <x>760</x>

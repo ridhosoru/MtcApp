@@ -128,7 +128,19 @@ def getstatusR():
             status_list = [row[0] for row in result]
             return {"status": "success", "data": status_list}
 
-        
+@app.post("/closetask")    
+def closetaskR(task:Task):
+    with dbconnection() as conn :
+        with conn.cursor() as cur :
+            try:
+                query = "UPDATE tasktable SET status = %s,problemafter_check=%s,solve=%s,timefinish=%s,namemtc=%s WHERE " \
+                "datestart=%s AND timestart=%s AND timerespon=%s AND location=%s AND machine=%s AND problem=%s AND comment=%s "
+                cur.execute(query,(task.status,task.problemaftercheck,task.solve,task.timefinish,task.namemtc,task.datestart,task.timestart,task.timerespon,task.location,
+                                task.machine,task.problem,task.commenttxt))
+                conn.commit()
+                return {"status":"success", "message":"send data success"}
+            except Exception as e:
+                raise HTTPException(status_code=500, detail=str(e))   
 
 @app.post("/updaterespon")
 def updateRespon(task:Task):
