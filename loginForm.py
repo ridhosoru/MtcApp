@@ -156,6 +156,8 @@ class mainshow(QtWidgets.QMainWindow):
                     self.callresponseButton.setStyleSheet("background-color: red;")
                 elif "waiting" in data_list:
                     self.callresponseButton.setStyleSheet("background-color: yellow;")
+                else :
+                    self.callresponseButton.setStyleSheet("")
 
         except Exception as e:
             print(e)  

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>840</width>
-    <height>494</height>
+    <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>10</y>
       <width>821</width>
-      <height>421</height>
+      <height>461</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -37,7 +37,7 @@ border-radius:10px;</string>
      <property name="geometry">
       <rect>
        <x>700</x>
-       <y>370</y>
+       <y>400</y>
        <width>91</width>
        <height>41</height>
       </rect>
@@ -70,8 +70,8 @@ QPushButton:pressed{
     <widget class="QPushButton" name="cancelButton">
      <property name="geometry">
       <rect>
-       <x>580</x>
-       <y>370</y>
+       <x>590</x>
+       <y>400</y>
        <width>91</width>
        <height>41</height>
       </rect>
@@ -104,7 +104,7 @@ QPushButton:pressed{
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>20</y>
+       <y>50</y>
        <width>781</width>
        <height>331</height>
       </rect>
@@ -172,6 +172,25 @@ QPushButton:pressed{
        <string>namemtc</string>
       </property>
      </column>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>0</y>
+       <width>241</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>RESPON CALLING</string>
+     </property>
     </widget>
    </widget>
   </widget>

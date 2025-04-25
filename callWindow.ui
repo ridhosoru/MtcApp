@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
-    <height>382</height>
+    <width>765</width>
+    <height>461</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>631</width>
-      <height>301</height>
+      <x>20</x>
+      <y>-10</y>
+      <width>711</width>
+      <height>391</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -36,8 +36,8 @@ border-radius:10px;</string>
     <widget class="QPushButton" name="okCallButton">
      <property name="geometry">
       <rect>
-       <x>530</x>
-       <y>250</y>
+       <x>600</x>
+       <y>330</y>
        <width>91</width>
        <height>41</height>
       </rect>
@@ -70,8 +70,8 @@ QPushButton:pressed{
     <widget class="QPushButton" name="cancelButton">
      <property name="geometry">
       <rect>
-       <x>420</x>
-       <y>250</y>
+       <x>490</x>
+       <y>330</y>
        <width>91</width>
        <height>41</height>
       </rect>
@@ -103,8 +103,8 @@ QPushButton:pressed{
     <widget class="QComboBox" name="loccomboBox">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>30</y>
+       <x>10</x>
+       <y>90</y>
        <width>151</width>
        <height>24</height>
       </rect>
@@ -116,8 +116,8 @@ QPushButton:pressed{
     <widget class="QComboBox" name="machinecomboBox">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>30</y>
+       <x>250</x>
+       <y>90</y>
        <width>181</width>
        <height>24</height>
       </rect>
@@ -129,8 +129,8 @@ QPushButton:pressed{
     <widget class="QComboBox" name="probcomboBox">
      <property name="geometry">
       <rect>
-       <x>440</x>
-       <y>30</y>
+       <x>530</x>
+       <y>90</y>
        <width>161</width>
        <height>24</height>
       </rect>
@@ -142,66 +142,85 @@ QPushButton:pressed{
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>10</y>
+       <x>20</x>
+       <y>70</y>
        <width>49</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>Location</string>
+      <string>Location:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>230</x>
-       <y>10</y>
+       <x>260</x>
+       <y>70</y>
        <width>91</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>Machine Name</string>
+      <string>Machine Name:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>450</x>
-       <y>10</y>
+       <x>540</x>
+       <y>70</y>
        <width>91</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>Issues</string>
+      <string>Issues:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>60</y>
+       <x>20</x>
+       <y>130</y>
        <width>61</width>
        <height>16</height>
       </rect>
      </property>
      <property name="text">
-      <string>Comment</string>
+      <string>Comment:</string>
      </property>
     </widget>
     <widget class="QTextEdit" name="commentTextEdit">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>80</y>
-       <width>571</width>
-       <height>151</height>
+       <x>10</x>
+       <y>150</y>
+       <width>691</width>
+       <height>161</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>161</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>CALL MTC</string>
      </property>
     </widget>
    </widget>
@@ -211,7 +230,7 @@ QPushButton:pressed{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>657</width>
+     <width>765</width>
      <height>33</height>
     </rect>
    </property>
