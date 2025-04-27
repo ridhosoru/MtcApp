@@ -1,4 +1,0 @@
-uvicorn api:app --reload
-
-
-api = file name
