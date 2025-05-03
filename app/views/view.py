@@ -5,7 +5,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtCore import Qt,QPoint, QTimer
 from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 import requests
-from datetime import datetime
+
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QSize
 
@@ -50,33 +50,48 @@ class registerWindow(QtWidgets.QMainWindow):
             event.accept()
         
 
-# class mainView(QtWidgets.QMainWindow):
-#     def __init__(self, usernameLogin,*args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         uic.loadUi("mainwindow.ui", self)
-#         self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
-#         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-#         self.dragPos = None
-#         #timerdate
-#         self.timer = QTimer()
-#         self.timer.timeout.connect(self.updateDate)
-#         self.timer.start(1000)
-#         self.usernameLogin= usernameLogin
-#         self.userLabel.setText("Hi, "+ self.usernameLogin)
-#         self.callButton.setIcon(QIcon("icon/call.png"))
-#         self.callButton.setIconSize(QSize(32, 32))
-#         self.callresponseButton.setIcon(QIcon("icon/respon.png"))
-#         self.callresponseButton.setIconSize(QSize(32, 32))
-#         self.closecallButton.setIcon(QIcon("icon/classcall.png"))
-#         self.closecallButton.setIconSize(QSize(32, 32))
+class mainView(QtWidgets.QMainWindow):
+    def __init__(self,getusername, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        uic.loadUi("mainwindow.ui", self)
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.dragPos = None
+        self.usernameLogin= getusername
+        self.userLabel.setText("Hi, "+ self.usernameLogin)
+        self.callButton.setIcon(QIcon("icon/call.png"))
+        self.callButton.setIconSize(QSize(32, 32))
+        self.callresponseButton.setIcon(QIcon("icon/respon.png"))
+        self.callresponseButton.setIconSize(QSize(32, 32))
+        self.closecallButton.setIcon(QIcon("icon/classcall.png"))
+        self.closecallButton.setIconSize(QSize(32, 32))
 
-#     def mousePressEvent(self, event):
-#         if event.button() == Qt.MouseButton.LeftButton:
-#             self.dragPos = event.globalPosition().toPoint()
-#             event.accept()
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
 
-#     def mouseMoveEvent(self, event):
-#         if event.buttons() == Qt.MouseButton.LeftButton and self.dragPos:
-#             self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
-#             self.dragPos = event.globalPosition().toPoint()
-#             event.accept()
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.MouseButton.LeftButton and self.dragPos:
+            self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
+
+class callWindowView(QtWidgets.QMainWindow):
+    def __init__(self,*args, **kwargs):
+        super().__init__(*args, **kwargs)
+        uic.loadUi("callWindow.ui", self)
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.dragPos = None
+    
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.MouseButton.LeftButton and self.dragPos:
+            self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
