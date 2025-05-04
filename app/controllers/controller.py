@@ -1,5 +1,5 @@
 from views.view import loginView
-from models.model import loginmodel,registermodel,MainModel,callWModel
+from models.model import loginmodel,registermodel,MainModel,callWModel,responModel
 from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtCore import Qt,QPoint, QTimer
 from datetime import datetime
@@ -14,6 +14,10 @@ class logincontroller:
     def logincontroll(self):
         self.loginv.loginButton.clicked.connect(self.logincontrolBtn)
         self.loginv.registerButton.clicked.connect(self.registerBtn)
+        self.loginv.closeButton.clicked.connect(self.closeLogin)
+    
+    def closeLogin(self):
+        self.loginv.close()
 
     def logincontrolBtn(self):
         username = self.loginv.usernameLine.text()
@@ -24,6 +28,7 @@ class logincontroller:
                 logindata = logincheck.login(username,password)
                 if logindata:
                     getUsername = logindata["username"]
+                    self.appcontextw.getuser= getUsername
                     self.appcontextw.openmainWindow(getUsername)
                     self.loginv.close()
                 else :
@@ -81,7 +86,11 @@ class mainWinC:
     
     def mainWindowButtonController(self):
         self.mainView.callButton.clicked.connect(self.callButtonA)
+        self.mainView.callresponseButton.clicked.connect(self.responseButtonA)
     
+    def responseButtonA(self):
+        self.appcontextw.responseWindow()
+
     def callButtonA(self):
         self.appcontextw.callWindow()
 
@@ -119,7 +128,7 @@ class callWindowController:
         self.machineList()
     
     def callController(self):
-    #     self.callControllerButton()
+        self.callControllerButton()
         self.lineList()
         self.machineList()
         self.problist()
@@ -139,13 +148,79 @@ class callWindowController:
         if probgetm :
                self.callWindowView.probcomboBox.addItems(probgetm)
     
-    # def callControllerButton(self):
-    #     print(0)
-    #     self.callWindowView.cancelButton.clicked.connect(self.closeCall)
+    def callControllerButton(self):
+        self.callWindowView.cancelButton.clicked.connect(self.closeCall)
+        self.callWindowView.okCallButton.clicked.connect(self.okCall)
     
-    # def closeCall(self):
-    #     self.close()
+    def okCall(self):
+        locc=self.callWindowView.loccomboBox.currentText()
+        machinec=self.callWindowView.machinecomboBox.currentText()
+        probc=self.callWindowView.probcomboBox.currentText()
+        commentText=self.callWindowView.commentTextEdit.toPlainText()
+        dateSt = datetime.now().strftime("%d-%m-%Y")
+        timeSt = datetime.now().strftime("%H:%M:%S")
+        timeRs = "-"
+        status = "Calling"
+        solve = "-"
+        problemafterc="-"
+        timefinish="-"
+        namemtc="-"
+        callmodel= callWModel.callmodel(self,locc,machinec,probc,commentText,dateSt,timeSt,timeRs,status,solve,problemafterc,timefinish,namemtc)
+        if callmodel:
+            self.appcontextw.openmainWindow(self.appcontextw.getuser)
+            self.callWindowView.close()
+
+    def closeCall(self):
+        self.callWindowView.close()
+
+class responseWindowController:
+    def __init__(self,responView,appcontext):
+        self.responView = responView
+        self.appcontextw = appcontext
+        self.responseController()
     
+    def responseController(self):
+        self.responseControllerButton()
+        self.updateTable()
+        self.setupAutoRefresh()
+        
+    def responseControllerButton(self):
+        self.responView.cancelButton.clicked.connect(self.closeR)
+        self.responView.responseButton.clicked.connect(self.responsCalling)
+
+    def responsCalling(self):
+        selected_row = self.responView.tableWidget.currentRow()
+        data = ['status','dateSt','timeSt','timeRs','locc','machinec','probc','commentText','problemafterc','solve','timefinish','namemtc']
+        rowdata={}
+        if selected_row >=0 :
+            #rowdata['status'] = 'waiting'
+            for col in range(self.responView.tableWidget.columnCount()):
+                item = self.responView.tableWidget.item(selected_row, col)
+                rowdata[data[col]]=item.text()
+            rowdata['status'] = 'waiting'
+            rowdata['timeRs'] = datetime.now().strftime("%H:%M:%S")
+            postResModel = responModel.responseCModel(self,rowdata)
+            if postResModel :
+                self.responView.close()
+                self.appcontextw.openmainWindow(self.appcontextw.getuser)
+
+    def updateTable(self):
+        gettableM = responModel.tableModel(self)
+        if gettableM:
+            self.responView.tableWidget.setRowCount(len(gettableM))
+            for row_idx, row in enumerate(gettableM):
+                for col_idx, value in enumerate(row):
+                    self.responView.tableWidget.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
+        for i in range(7, 10):
+            self.responView.tableWidget.setColumnWidth(i, 250)
+    
+    def setupAutoRefresh(self):
+        self.timerT = QTimer()
+        self.timerT.timeout.connect(self.updateTable)
+        self.timerT.start(3000)
+    
+    def closeR(self):
+        self.responView.close()
 
         
 

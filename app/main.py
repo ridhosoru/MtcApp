@@ -1,7 +1,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from views.view import loginView,registerWindow,mainView,callWindowView
-from controllers.controller import logincontroller,registerwindowcontroller,mainWinC,callWindowController
+from views.view import loginView,registerWindow,mainView,callWindowView,responView
+from controllers.controller import logincontroller,registerwindowcontroller,mainWinC,callWindowController,responseWindowController
 
 
 class appcontext:
@@ -9,35 +9,46 @@ class appcontext:
         self.app = QApplication(sys.argv)
         self.loginwindow = None
         self.mainwindow = None
+        self.callV = None
+        self.responseV = None
         
     
     def open_loginwindow(self):
         loginv = loginView()
-        controller = logincontroller(loginv,self)
+        self.controller = logincontroller(loginv,self)
         self.loginwindow = loginv
         self.loginwindow.show()
 
 
     def openregisterWindow(self):
         registerw = registerWindow()
-        controller = registerwindowcontroller(registerw,self)
+        self.controller = registerwindowcontroller(registerw,self)
         self.registerW =registerw
         self.registerW.show()
     
     def openmainWindow(self,getUsername):
-        # self.getUsername = logincontroller.logincontrolBtn(self)
         mainv = mainView(getUsername)
-        controller = mainWinC(mainv,self)
+        self.controller = mainWinC(mainv,self)
         self.mainv = mainv
         self.mainv.show()
     
     def callWindow(self):
-        callV = callWindowView()
-        controller = callWindowController(callV,self)
-        self.callv = callV
-        self.callv.show()
-        
-                
+        if self.callV is None or not self.callV.isVisible():
+            self.callV = callWindowView()
+            self.controller = callWindowController(self.callV,self)
+            self.callV.show()
+        else :
+            self.callV.activateWindow()
+            self.callV.raise_()
+
+    def responseWindow(self):
+        if self.responseV is None or not self.responseV.isVisible():
+            self.responseV = responView()
+            self.responeController = responseWindowController(self.responseV,self)
+            self.responseV.show()
+        else :
+            self.responseV.activateWindow()
+            self.responseV.raise_()
 
     def run(self):
         self.open_loginwindow()
