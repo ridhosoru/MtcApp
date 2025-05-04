@@ -12,7 +12,7 @@ from PyQt6.QtCore import QSize
 class loginView(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        uic.loadUi("login.ui", self)
+        uic.loadUi("ui/login.ui", self)
         self.setFixedSize(800, 800)
         self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -32,7 +32,7 @@ class loginView(QtWidgets.QMainWindow):
 class registerWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        uic.loadUi("registerUser.ui", self)
+        uic.loadUi("ui/registerUser.ui", self)
         self.setFixedSize(800, 800)
         self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -53,7 +53,7 @@ class registerWindow(QtWidgets.QMainWindow):
 class mainView(QtWidgets.QMainWindow):
     def __init__(self,getusername, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        uic.loadUi("mainwindow.ui", self)
+        uic.loadUi("ui/mainwindow.ui", self)
         self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.dragPos = None
@@ -80,7 +80,7 @@ class mainView(QtWidgets.QMainWindow):
 class callWindowView(QtWidgets.QMainWindow):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
-        uic.loadUi("callWindow.ui", self)
+        uic.loadUi("ui/callWindow.ui", self)
         self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.dragPos = None
@@ -99,7 +99,7 @@ class callWindowView(QtWidgets.QMainWindow):
 class responView(QtWidgets.QMainWindow):
     def __init__(self,*args, **kwargs):
         super().__init__(*args, **kwargs)
-        uic.loadUi("responWindow.ui", self)
+        uic.loadUi("ui/responWindow.ui", self)
         self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.dragPos = None
