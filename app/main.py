@@ -1,7 +1,7 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from views.view import loginView,registerWindow,mainView,callWindowView,responView
-from controllers.controller import logincontroller,registerwindowcontroller,mainWinC,callWindowController,responseWindowController
+from views.view import loginView,registerWindow,mainView,callWindowView,responView,closeresponView
+from controllers.controller import logincontroller,registerwindowcontroller,mainWinC,callWindowController,responseWindowController,closeRcontroller
 
 
 class appcontext:
@@ -11,6 +11,7 @@ class appcontext:
         self.mainwindow = None
         self.callV = None
         self.responseV = None
+        self.closeV = None
         
     
     def open_loginwindow(self):
@@ -46,6 +47,15 @@ class appcontext:
             self.responseV = responView()
             self.responeController = responseWindowController(self.responseV,self)
             self.responseV.show()
+        else :
+            self.responseV.activateWindow()
+            self.responseV.raise_()
+    
+    def closeCallWindow(self):
+        if self.closeV is None or not self.closeV.isVisible():
+            self.closeV = closeresponView()
+            self.closeVController = closeRcontroller(self.closeV,self)
+            self.closeV.show()
         else :
             self.responseV.activateWindow()
             self.responseV.raise_()
