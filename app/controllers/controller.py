@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtCore import Qt,QPoint, QTimer
 from datetime import datetime
 from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
+import numpy as np
 
 class logincontroller:
     def __init__(self,loginv,appcontext):
@@ -83,7 +84,72 @@ class mainWinC:
         self.timerU()
         self.tabletask()
         self.setupAutoRefresh()
+        self.getStatusR()
+        self.mtcPerfomance()
+
+    def mtcPerfomance(self):
+        dateSt = str(datetime.now().strftime("%d-%m-%Y"))
+        getData = MainModel.getMaintenanceP(self,dateSt)
+        if getData:
+            datalist = len(getData)
+            self.mainView.label_totTask.setText("TOTAL TASK : "+str(datalist))
+            print(datalist)
+            timerespon = [row[3] for row in getData]
+            timestart = [row[2] for row in getData]
+            timefinish = [row[11] for row in getData]
+            status = [row[0] for row in getData]
+            formattime = '%H:%M:%S'
+            if "Calling" in status :
+                print("respon and complete the task to get avg time")
+                if '-' in timerespon:
+                    totalpending = timerespon.count('-')
+                    print(totalpending)
+                    self.mainView.label_avgTR.setText("AVG TIME RESPON(Hours) : Respon Another Call")
+
+            elif "waiting" in status :
+                timestartdt = [datetime.strptime(time,formattime)for time in timestart]
+                timerespondt = [datetime.strptime(time,formattime)for time in timerespon]
+                timeoperate = [respon-start for start,respon in zip(timestartdt,timerespondt)]
+                total_seconds = sum(delta.total_seconds()for delta in timeoperate)
+                totalminutes = total_seconds/60
+                avgminutes= totalminutes/len(getData)
+                if avgminutes >= 60 :
+                    avghours = round(avgminutes/60,2)
+                
+                    self.mainView.label_avgTR.setText("AVG TIME RESPON(Hours) : "+str(avghours))
+                else:
+                    self.mainView.label_avgTR.setText("AVG TIME RESPON(minutes) : "+str(round(avgminutes),2))
+                
+                
+
+            
+            
+            
+            # timerespondt = [datetime.strptime(time,formattime).time()for time in timerespon]
+            # timefinsihdt = [datetime.strptime(time,formattime).time()for time in timefinish]
+            print(status)
+            # time_np = np.array(timestart,dtype='datetime64[s]')
+            # print(time_np)
+            # print(timestart)
+            # print(timefinish)
+            if timerespon == '-':
+                print(len(timerespon))
+            
+            
+
     
+    def getStatusR(self):
+        modelRespon = MainModel.getStatusRespon(self)
+        if modelRespon :
+            data_list = modelRespon.get("data", [])
+            if "Calling" in data_list:
+                    self.mainView.callresponseButton.setStyleSheet("background-color: red;")
+            elif "waiting" in data_list:
+                self.mainView.callresponseButton.setStyleSheet("background-color: yellow;")
+            else :
+                self.mainView.callresponseButton.setStyleSheet("")
+
+
     def mainWindowButtonController(self):
         self.mainView.callButton.clicked.connect(self.callButtonA)
         self.mainView.callresponseButton.clicked.connect(self.responseButtonA)
@@ -100,7 +166,6 @@ class mainWinC:
 
     def tabletask(self):
         tabletaskupdate = MainModel.tableTaskM(self)
-        print(tabletaskupdate)
         # sortitem = {"Calling","waiting","Done"}
         # tabletaskupdate.sort()
         if tabletaskupdate :
@@ -124,7 +189,8 @@ class mainWinC:
     def setupAutoRefresh(self):
         self.timerT = QTimer()
         self.timerT.timeout.connect(self.tabletask)
-        # self.timerT.timeout.connect(self.statusResponseC)
+        self.timerT.timeout.connect(self.getStatusR)
+        self.timerT.timeout.connect(self.mtcPerfomance)
         self.timerT.start(3000)
 
 class callWindowController:

@@ -36,7 +36,27 @@ class MainModel:
                 return data
         except Exception as e:
             print(e)
-
+    
+    def getStatusRespon(self):
+        url= "http://127.0.0.1:8000/getstatusR"
+        response = requests.get(url)
+        if response.status_code == 200:
+            result = response.json()
+            return result
+        
+    def getMaintenanceP(self,dateSt):
+        try:
+            payload={
+                "datestart": dateSt
+            }
+            url= "http://127.0.0.1:8000/getDataWDate"
+            response = requests.post(url,json=payload)
+            if response.status_code == 200 :
+                result= response.json()
+                return result
+        except Exception as e :
+            print(e)
+            
 class callWModel:
     def linemodel(self):
         try:

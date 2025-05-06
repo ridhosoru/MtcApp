@@ -31,6 +31,9 @@ class Task(BaseModel):
     timefinish:Optional[str] = None
     namemtc:Optional[str] = None
 
+class getDate(BaseModel):
+    datestart : Optional[str] = None
+
 
 
 @app.post("/login")
@@ -155,5 +158,20 @@ def updateRespon(task:Task):
                 return {"status":"success", "message":"send data success"}
             except Exception as e:
                 raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/getDataWDate")
+def getDataWDate(getdate:getDate):
+    with dbconnection() as conn :
+        with conn.cursor() as cur :
+            try:
+                query ="SELECT * from tasktable WHERE datestart=%s"
+                cur.execute(query,(getdate.datestart,))
+                result = cur.fetchall()
+                return result
+                
+            except Exception as e:
+                raise HTTPException(status_code=500,detail=str(e))
+
+
 
 
