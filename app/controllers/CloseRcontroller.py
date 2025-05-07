@@ -38,8 +38,13 @@ class closeRcontroller:
             if postCloseTask :
                 self.closeV.close()
     
+    def getData(self):
+        dateSt = str(datetime.now().strftime("%d-%m-%Y"))
+        getData = closeCModel.updatetable(self,dateSt)
+        return getData
+    
     def updateTableC(self):
-        updateTable = closeCModel.updatetable(self)
+        updateTable = closeRcontroller.getData(self)
         if updateTable:
             self.closeV.tableWidget.setRowCount(len(updateTable))
             for row_idx, row in enumerate(updateTable):

@@ -34,6 +34,10 @@ class Task(BaseModel):
 class getDate(BaseModel):
     datestart : Optional[str] = None
 
+class getDwS(BaseModel):
+    datestart : Optional[str] = None
+    status:Optional[str] = None
+
 
 
 @app.post("/login")
@@ -166,6 +170,19 @@ def getDataWDate(getdate:getDate):
             try:
                 query ="SELECT * from tasktable WHERE datestart=%s"
                 cur.execute(query,(getdate.datestart,))
+                result = cur.fetchall()
+                return result
+                
+            except Exception as e:
+                raise HTTPException(status_code=500,detail=str(e))
+
+@app.post("/getDataWDS")
+def getDataWDate(getDwS:getDwS):
+    with dbconnection() as conn :
+        with conn.cursor() as cur :
+            try:
+                query ="SELECT * from tasktable WHERE datestart=%s AND status= %s"
+                cur.execute(query,(getDwS.datestart,getDwS.status))
                 result = cur.fetchall()
                 return result
                 

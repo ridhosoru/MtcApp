@@ -112,14 +112,18 @@ class callWModel:
             print(e) 
 
 class responModel:
-    def tableModel(self):
+    def tableModel(self,dateSt):
         try:
-            url ="http://127.0.0.1:8000/getTask"
-            response = requests.get(url)
+            payload={
+                "datestart": dateSt,
+                "status":'Calling'
+            }
+            url= "http://127.0.0.1:8000/getDataWDS"
+            response = requests.post(url,json=payload)
             if response.status_code == 200 :
-                data = response.json()
-                return data
-        except Exception as e:
+                result= response.json()
+                return result
+        except Exception as e :
             print(e)
     
     def responseCModel(self,rowdata):
@@ -147,14 +151,18 @@ class responModel:
             print(e)
 
 class closeCModel:
-    def updatetable(self):
+    def updatetable(self,dateSt):
         try:
-            url ="http://127.0.0.1:8000/getTask"
-            response = requests.get(url)
+            payload={
+                "datestart": dateSt,
+                "status":'waiting'
+            }
+            url= "http://127.0.0.1:8000/getDataWDS"
+            response = requests.post(url,json=payload)
             if response.status_code == 200 :
-                data = response.json()
-                return data
-        except Exception as e:
+                result= response.json()
+                return result
+        except Exception as e :
             print(e)
     
     def closeTaskModel(self,rowdata):

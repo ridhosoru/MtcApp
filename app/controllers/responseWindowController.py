@@ -36,9 +36,14 @@ class responseWindowController:
             if postResModel :
                 self.responView.close()
                 self.appcontextw.openmainWindow(self.appcontextw.getuser)
+    
+    def getData(self):
+        dateSt = str(datetime.now().strftime("%d-%m-%Y"))
+        getData = responModel.tableModel(self,dateSt)
+        return getData
 
     def updateTable(self):
-        gettableM = responModel.tableModel(self)
+        gettableM = responseWindowController.getData(self)
         if gettableM:
             self.responView.tableWidget.setRowCount(len(gettableM))
             for row_idx, row in enumerate(gettableM):

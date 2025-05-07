@@ -108,15 +108,14 @@ class mainWinC:
                     self.mainView.label_avgTR.setText("AVG TIME RESPON(minutes) : "+str(avgminutes_up))
     
     def getStatusR(self):
-        modelRespon = MainModel.getStatusRespon(self)
+        modelRespon = mainWinC.getData(self)
         if modelRespon :
-            data_list = modelRespon.get("data", [])
-            if "Calling" in data_list:
-                    self.mainView.callresponseButton.setStyleSheet("background-color: red;")
-                    self.mainView.closecallButton.setStyleSheet("")
-            elif "waiting" in data_list:
+            status = [row[0] for row in modelRespon]
+            if "Calling" in status:
+                self.mainView.callresponseButton.setStyleSheet("background-color: yellow;")
+            elif "waiting" in status:
                 self.mainView.closecallButton.setStyleSheet("background-color: yellow;")
-            else :
+            else:
                 self.mainView.callresponseButton.setStyleSheet("")
                 self.mainView.closecallButton.setStyleSheet("")
 
