@@ -65,6 +65,9 @@ class mainView(QtWidgets.QMainWindow):
         self.callresponseButton.setIconSize(QSize(32, 32))
         self.closecallButton.setIcon(QIcon("icon/classcall.png"))
         self.closecallButton.setIconSize(QSize(32, 32))
+        self.homeButton.setIcon(QIcon("icon/home.png"))
+        self.homeButton.setIconSize(QSize(32, 32))
+        self.homeButton.setEnabled(False)
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:

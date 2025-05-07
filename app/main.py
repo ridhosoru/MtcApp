@@ -1,8 +1,12 @@
 import sys
 from PyQt6.QtWidgets import QApplication
 from views.view import loginView,registerWindow,mainView,callWindowView,responView,closeresponView
-from controllers.controller import logincontroller,registerwindowcontroller,mainWinC,callWindowController,responseWindowController,closeRcontroller
-
+from controllers.mainController import mainWinC
+from controllers.loginController import logincontroller
+from controllers.registerWindowController import registerwindowcontroller
+from controllers.callWindowController import callWindowController
+from controllers.responseWindowController import responseWindowController
+from controllers.CloseRcontroller import closeRcontroller
 
 class appcontext:
     def __init__(self):
