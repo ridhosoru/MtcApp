@@ -17,49 +17,45 @@ class mainWinC:
         self.timerU()
         self.tabletask()
         self.setupAutoRefresh()
-        self.getStatusR()
+        # self.getStatusR()
         self.mtcPerfomance()
         
     def mtcPerfomance(self):
-        self.getData()
+        self.data = self.getData()
         self.avgTimeRespon()
         self.totalTask()
         self.taskWaiting()
         self.taskComplete()
         self.avgTimeComplete()
+        self.getStatusR()
 
     def getData(self):
         dateSt = str(datetime.now().strftime("%d-%m-%Y"))
-        getData = MainModel.getMaintenanceP(self,dateSt)
-        return getData
+        return MainModel.getMaintenanceP(self,dateSt)
     
     def totalTask(self):
-        getData = mainWinC.getData(self)
-        if getData:
-            status = [row[0] for row in getData]
+        if self.data:
+            status = [row[0] for row in self.data]
             TotalTask = len(status)
             self.mainView.label_totTask.setText("TOTAL TASK : "+str(TotalTask))
     
     def taskWaiting(self):
-        getData = mainWinC.getData(self)
-        if getData :
-            status = [row[0] for row in getData]
+        if self.data :
+            status = [row[0] for row in self.data]
             tot_taskWaiting = status.count('waiting')
             self.mainView.label_taskWaiting.setText("TASK WAITING : "+str(tot_taskWaiting))
     
     def taskComplete(self):
-        getData = mainWinC.getData(self)
-        if getData :
-            status = [row[0] for row in getData]
+        if self.data :
+            status = [row[0] for row in self.data]
             tot_taskComplete = status.count('Done')
             self.mainView.label_taskComplete.setText("TASK COMPLETE:  "+str(tot_taskComplete))
     
     def avgTimeComplete(self):
-        getData = mainWinC.getData(self)
-        if getData:
-            status = [row[0] for row in getData]
-            timerespon = [row[3] for row in getData]
-            timefinish = [row[10] for row in getData]
+        if self.data:
+            status = [row[0] for row in self.data]
+            timerespon = [row[3] for row in self.data]
+            timefinish = [row[10] for row in self.data]
             formattime = '%H:%M:%S'
             if "Calling" in status:
                 self.mainView.label_AvgTC.setText("AVG TIME COMPLETE : Complete Task Waiting")
@@ -71,7 +67,7 @@ class mainWinC:
                 timeoperate = [finish-respon for finish,respon in zip(timefinishdt,timerespondt)]
                 total_seconds = sum(delta.total_seconds()for delta in timeoperate)
                 totalminutes = total_seconds/60
-                avgminutes= totalminutes/len(getData)
+                avgminutes= totalminutes/len(self.data)
                 if avgminutes >= 60 :
                     avghours = round(avgminutes/60,2)
                 
@@ -83,11 +79,10 @@ class mainWinC:
 
             
     def avgTimeRespon(self):
-        getData = mainWinC.getData(self)
-        if getData:
-            timerespon = [row[3] for row in getData]
-            timestart = [row[2] for row in getData]
-            status = [row[0] for row in getData]
+        if self.data:
+            timerespon = [row[3] for row in self.data]
+            timestart = [row[2] for row in self.data]
+            status = [row[0] for row in self.data]
             formattime = '%H:%M:%S'
             if "Calling" in status :
                 if '-' in timerespon:
@@ -98,7 +93,7 @@ class mainWinC:
                 timeoperate = [respon-start for start,respon in zip(timestartdt,timerespondt)]
                 total_seconds = sum(delta.total_seconds()for delta in timeoperate)
                 totalminutes = total_seconds/60
-                avgminutes= totalminutes/len(getData)
+                avgminutes= totalminutes/len(self.data)
                 if avgminutes >= 60 :
                     avghours = round(avgminutes/60,2)
                 
@@ -108,9 +103,8 @@ class mainWinC:
                     self.mainView.label_avgTR.setText("AVG TIME RESPON(minutes) : "+str(avgminutes_up))
     
     def getStatusR(self):
-        modelRespon = mainWinC.getData(self)
-        if modelRespon :
-            status = [row[0] for row in modelRespon]
+        if self.data:
+            status = [row[0] for row in self.data]
             if "Calling" in status:
                 self.mainView.callresponseButton.setStyleSheet("background-color: yellow;")
             elif "waiting" in status:
