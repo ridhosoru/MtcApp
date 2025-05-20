@@ -93,8 +93,8 @@ class startedC :
                 try :
                     regmodel = registerModel()
                     self.registerM = regmodel.registerS(username,password,email)
-                    message = str(self.registerM[1])
-                    if False in self.registerM:
+                    if isinstance(self.registerM, tuple) and self.registerM[0]:
+                        message = str(self.registerM[1])
                         QMessageBox.critical(self.AppW, "Gagal", message)
                         self.clearLineR()
                     else:
