@@ -29,6 +29,8 @@ class startedC :
     
     def verifButtonC(self):
         try:
+            
+            self.AppW.verifButton.setEnabled(False)
             self.verification_code = startedC.generate_code(self)
             print(self.verification_code)
             receiver_email = self.AppW.emailRLine.text()
@@ -57,8 +59,7 @@ class startedC :
     def update_timer(self):
         self.time_left -= 1
         self.AppW.verifButton.setText(str(self.time_left))
-        self.AppW.verifButton.setEnabled(False)
-        if self.time_left <= 0:
+        if self.time_left <= 0 :
             self.AppW.verifButton.setText("Verif")
             self.AppW.verifButton.setEnabled(True)
             self.timer.stop()
@@ -76,14 +77,16 @@ class startedC :
             if codeV == self.verification_code:
                 try :
                     regmodel = registerModel()
-                    registerM = regmodel.registerS(username,password,email)
-                    if registerM:
+                    self.registerM = regmodel.registerS(username,password,email)
+                    if "error" in self.registerM:
+                        QMessageBox.critical(self.AppW, "Gagal", self.registerM["error"])
+                    else:
                         QMessageBox.information(self.AppW,"success","success add user")
                         self.AppW.usernameRLine.clear()
                         self.AppW.passwordRLine.clear()    
                         self.AppW.emailRLine.clear()
-                        self.AppW.codeRLine.clear()   
-
+                        self.AppW.codeRLine.clear()
+                        self.time_left = 0  
                 except Exception as e :
                     print(e)
 

@@ -1,4 +1,6 @@
 import requests
+import ast
+import json
 
 class registerModel:
     def registerS(self,username,password,email):
@@ -9,6 +11,7 @@ class registerModel:
             if response.status_code == 200 :
                 return {"username":username, "password":password,"email":email} 
             else:
-                return None
+                error_msg = response.json()
+                print(error_msg)
         except Exception as e:
             print(e)
