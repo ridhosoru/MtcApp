@@ -4,7 +4,7 @@ import os
 from email.message import EmailMessage
 import ssl
 import smtplib
-from PyQt6.QtCore import QTimer
+from PyQt6.QtCore import QTimer,Qt
 from Model.model import registerModel
 from PyQt6.QtWidgets import QMessageBox
 
@@ -26,10 +26,17 @@ class startedC :
     def buttonstartedC(self):
         self.AppW.verifButton.clicked.connect(self.verifButtonC)
         self.AppW.registerBtn.clicked.connect(self.registerAcc)
+        self.AppW.closeBtn.clicked.connect(self.closeW)
+        self.AppW.minBtn.clicked.connect(self.minW)
+    
+    def minW(self):
+        self.AppW.showMinimized()
+    
+    def closeW(self):
+        self.AppW.close()
     
     def verifButtonC(self):
         try:
-            
             self.AppW.verifButton.setEnabled(False)
             self.verification_code = startedC.generate_code(self)
             print(self.verification_code)
@@ -67,6 +74,14 @@ class startedC :
     def generate_code(self):
         return str(random.randint(100000,999999))
 
+    def clearLineR(self):
+        self.AppW.usernameRLine.clear()
+        self.AppW.passwordRLine.clear()    
+        self.AppW.emailRLine.clear()
+        self.AppW.codeRLine.clear()
+        self.time_left = 0 
+
+
     def registerAcc(self):
         username = self.AppW.usernameRLine.text()
         password = self.AppW.passwordRLine.text()    
@@ -78,15 +93,13 @@ class startedC :
                 try :
                     regmodel = registerModel()
                     self.registerM = regmodel.registerS(username,password,email)
-                    if "error" in self.registerM:
-                        QMessageBox.critical(self.AppW, "Gagal", self.registerM["error"])
+                    message = str(self.registerM[1])
+                    if False in self.registerM:
+                        QMessageBox.critical(self.AppW, "Gagal", message)
+                        self.clearLineR()
                     else:
                         QMessageBox.information(self.AppW,"success","success add user")
-                        self.AppW.usernameRLine.clear()
-                        self.AppW.passwordRLine.clear()    
-                        self.AppW.emailRLine.clear()
-                        self.AppW.codeRLine.clear()
-                        self.time_left = 0  
+                        self.clearLineR()
                 except Exception as e :
                     print(e)
 

@@ -14,8 +14,6 @@ class AppW :
         self.controller = startedC(self,startedV)
         self.started.show()
 
-    
-    
     def run(self):
         self.openStarted()
         sys.exit(self.app.exec())
