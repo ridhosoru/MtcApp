@@ -11,7 +11,6 @@ class registerModel:
             if response.status_code == 200 :
                 return {"username":username, "password":password,"email":email} 
             else:
-                # error_msg = response.json()
                 if response.status_code == 409:
                     message = "username already used"
                     return False,message
