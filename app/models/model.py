@@ -1,26 +1,67 @@
 import requests
 
-class loginmodel:
-    def login(self,username,password):
-        url ="http://127.0.0.1:8000/login"
+
+
+
+class registerSModel:
+    def registerS(self,username,password,email):
+        url ="http://127.0.0.1:8000/registerAcc"
+        payload = {"username":username, "password":password,"email":email}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                return {"username":username, "password":password,"email":email} 
+            else:
+                if response.status_code == 409:
+                    message = "username already used"
+                    return False,message
+                elif response.status_code == 400:
+                    message = "email already used"
+                    return False,message
+                else :
+                    message = "error check your internet,you email format etc"
+        except Exception as e:
+            print(e)
+
+
+class LoginSModel:
+    def loginS(self,username,password):
+        url ="http://127.0.0.1:8000/loginAcc"
         payload = {"username":username, "password":password}
         response = requests.post(url, json=payload)
         try :
             if response.status_code == 200 :
-                return {"username":username, "password":password}
+                return response.json()
+            elif response.status_code == 500:
+                message = "wrong username or password"
+                return False,message
+                
+        except Exception as e:
+            print(e)
+                        
+
+class loginmodel:
+    def login(self,username,password,id):
+        url ="http://127.0.0.1:8000/loginUser"
+        payload = {"username":username, "password":password, "id":id}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                return response.json()
             else:
-                return None
+                message = "wrong username or password"
+                return False,message
         except Exception as e:
             print(e)
 
 class registermodel:
-    def register(self,username,password):
+    def register(self,username,password,workNumber,id):
         try :
-            url ="http://127.0.0.1:8000/register"
-            payload = {"username": username, "password": password}
+            url ="http://127.0.0.1:8000//RegisterUser"
+            payload = {"username": username, "password": password, "workNumber":workNumber, "id":id}
             response = requests.post(url, json=payload)
             if response.status_code == 200:
-                return response.json
+                return response.json()
             else :
                 return None
         except Exception as e:
@@ -44,12 +85,13 @@ class MainModel:
             result = response.json()
             return result
         
-    def getMaintenanceP(self,dateSt):
+    def getMaintenanceP(self,dateSt,id):
         try:
             payload={
+                "id" : id,
                 "datestart": dateSt
             }
-            url= "http://127.0.0.1:8000/getDataWDate"
+            url= "http://127.0.0.1:8000/getTask"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 result= response.json()
@@ -58,51 +100,61 @@ class MainModel:
             print(e)
             
 class callWModel:
-    def linemodel(self):
+    def linemodel(self,id):
         try:
-             url ="http://127.0.0.1:8000/dataLine"
-             response = requests.get(url)
-             if response.status_code == 200 :
-                data = response.json()
-                return data
-        except Exception as e:
-                print(e)
-    
-    def machinemodel(self):
-        try:
-             url ="http://127.0.0.1:8000/dataMachine"
-             response = requests.get(url)
-             if response.status_code == 200 :
-                data = response.json()
-                return data
-        except Exception as e:
-            print(e)
-    
-    def probmodel(self):
-        try:
-            url ="http://127.0.0.1:8000/dataProblem"
-            response = requests.get(url)
+            payload={
+                "id": id
+            }
+            url ="http://127.0.0.1:8000/lineName"
+            response = requests.post(url,json=payload)
             if response.status_code == 200 :
-               data = response.json()
-               return data
+                data = response.json()
+            return data
         except Exception as e:
             print(e)
     
-    def callmodel(self,locc,machinec,probc,commentText,dateSt,timeSt,timeRs,status,solve,problemafterc,timefinish,namemtc):
+    def machinemodel(self,id):
         try:
-            url = "http://127.0.0.1:8000/taskInput"
-            payload = {"status": status, 
-                       "datestart": dateSt,
-                       "timestart": timeSt,
-                       "timerespon": timeRs,
-                       "location": locc,
-                       "machine": machinec,
-                       "problem": probc,
-                       "commenttxt": commentText,
-                       "problemaftercheck": problemafterc,
-                       "solve": solve,
-                       "timefinish": timefinish,
-                       "namemtc": namemtc}
+            payload={
+                "id": id
+            }
+            url ="http://127.0.0.1:8000/machineName"
+            response = requests.post(url,json=payload)
+            if response.status_code == 200 :
+                data = response.json()
+            return data
+        except Exception as e:
+            print(e)
+    
+    def probmodel(self,id):
+        try:
+            payload={
+                "id": id
+            }
+            url ="http://127.0.0.1:8000/issueTable"
+            response = requests.post(url,json=payload)
+            if response.status_code == 200 :
+                data = response.json()
+            return data
+        except Exception as e:
+            print(e)
+    
+    def callmodel(self,id,locc,machinec,probc,commentText,dateSt,timeSt,timeRs,status,solve,problemafterc,timefinish,namemtc):
+        try:
+            url = "http://127.0.0.1:8000/TaskInput"
+            payload = { "id"    : id,
+                        "status": status, 
+                        "datestart": dateSt,
+                        "timestart": timeSt,
+                        "timerespon": timeRs,
+                        "location": locc,
+                        "machine": machinec,
+                        "problem": probc,
+                        "commenttxt": commentText,
+                        "problemaftercheck": problemafterc,
+                        "solve": solve,
+                        "timefinish": timefinish,
+                        "namemtc": namemtc}
             response = requests.post(url, json=payload)
             if response.status_code == 200:
                 return response.json()
@@ -112,13 +164,14 @@ class callWModel:
             print(e) 
 
 class responModel:
-    def tableModel(self,dateSt):
+    def tableModel(self,dateSt,id):
         try:
             payload={
+                "id" :id,
                 "datestart": dateSt,
                 "status":'Calling'
             }
-            url= "http://127.0.0.1:8000/getDataWDS"
+            url= "http://127.0.0.1:8000/getRespon"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 result= response.json()
@@ -126,21 +179,17 @@ class responModel:
         except Exception as e :
             print(e)
     
-    def responseCModel(self,rowdata):
+    def responseCModel(self,rowdata,id):
         try :
-            url = "http://127.0.0.1:8000/updaterespon"
-            payload = {"status": rowdata['status'],
+            url = "http://127.0.0.1:8000/TaskUpdate"
+            payload = {
+                        "id":id,
+                        "status": rowdata['status'],
                         "datestart": rowdata['dateSt'],
                         "timestart": rowdata['timeSt'],
                         "timerespon": rowdata['timeRs'],
-                        "location": rowdata['locc'],
-                        "machine": rowdata['machinec'],
-                        "problem": rowdata['probc'],
                         "commenttxt": rowdata['commentText'],
-                        "problemaftercheck": rowdata['problemafterc'],
-                        "solve": rowdata['solve'],
-                        "timefinish": rowdata['timefinish'],
-                        "namemtc": rowdata['namemtc']}
+                        }
             response = requests.post(url, json=payload)
             if response.status_code == 200:
                 data=response.json()
@@ -151,13 +200,14 @@ class responModel:
             print(e)
 
 class closeCModel:
-    def updatetable(self,dateSt):
+    def tableModel(self,dateSt,id):
         try:
             payload={
+                "id" :id,
                 "datestart": dateSt,
                 "status":'waiting'
             }
-            url= "http://127.0.0.1:8000/getDataWDS"
+            url= "http://127.0.0.1:8000/getRespon"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 result= response.json()
@@ -165,16 +215,14 @@ class closeCModel:
         except Exception as e :
             print(e)
     
-    def closeTaskModel(self,rowdata):
+    def closeTaskModel(self,rowdata,id):
         try :
-            url = "http://127.0.0.1:8000/closetask"
-            payload = {"status": rowdata['status'],
+            url = "http://127.0.0.1:8000/TaskFinish"
+            payload = {"id":id,
+                        "status": rowdata['status'],
                         "datestart": rowdata['dateSt'],
                         "timestart": rowdata['timeSt'],
                         "timerespon": rowdata['timeRs'],
-                        "location": rowdata['locc'],
-                        "machine": rowdata['machinec'],
-                        "problem": rowdata['probc'],
                         "commenttxt": rowdata['commentText'],
                         "problemaftercheck": rowdata['problemafterc'],
                         "solve": rowdata['solve'],
@@ -189,4 +237,4 @@ class closeCModel:
         except Exception as e:
                 print(e)
 
-                                    
+            

@@ -48,16 +48,13 @@
 }</string>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Shape::NoFrame</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Shadow::Plain</enum>
+     <enum>QFrame::NoFrame</enum>
     </property>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>20</y>
+       <y>50</y>
        <width>311</width>
        <height>61</height>
       </rect>
@@ -66,6 +63,7 @@
       <font>
        <family>Segoe UI</family>
        <pointsize>24</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -162,6 +160,7 @@
      <property name="font">
       <font>
        <pointsize>12</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -202,6 +201,7 @@ QPushButton:pressed{
      <property name="font">
       <font>
        <pointsize>12</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -233,7 +233,7 @@ QPushButton:pressed{
      <property name="geometry">
       <rect>
        <x>90</x>
-       <y>380</y>
+       <y>360</y>
        <width>221</width>
        <height>24</height>
       </rect>
@@ -246,13 +246,39 @@ QPushButton:pressed{
      <property name="geometry">
       <rect>
        <x>90</x>
-       <y>420</y>
+       <y>400</y>
        <width>221</width>
        <height>24</height>
       </rect>
      </property>
      <property name="text">
       <string>Forgot Password</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="logoutBtn">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>440</y>
+       <width>221</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Logout</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="acc_name">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Hi, Admin</string>
      </property>
     </widget>
    </widget>
@@ -263,7 +289,7 @@ QPushButton:pressed{
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>33</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

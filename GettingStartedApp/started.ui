@@ -128,7 +128,7 @@ font-weight: bold;</string>
        <string>LOGIN</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="loginButton">
       <property name="geometry">
        <rect>
         <x>150</x>
@@ -141,7 +141,7 @@ font-weight: bold;</string>
        <string>Login</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="usernameL">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -233,7 +233,7 @@ font-weight: bold;</string>
        <string>OR REGISTER</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="passwordL">
       <property name="geometry">
        <rect>
         <x>120</x>

@@ -5,6 +5,7 @@ from PyQt6.QtCore import Qt,QPoint, QTimer
 from datetime import datetime
 from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 import numpy as np
+import os,json
 
 
 class callWindowController:
@@ -20,26 +21,43 @@ class callWindowController:
         self.machineList()
         self.problist()
     
+    def getID(self):
+        if os.path.exists("user.json"):
+            with open("user.json", "r") as f:
+                data = json.load(f)
+                return data.get("id")
+
+    
     def lineList(self):
-        linegetm = callWModel.linemodel(self)
+        id = int(self.getID())
+        linegetm = callWModel.linemodel(self,id)
         if linegetm :
-            self.callWindowView.loccomboBox.addItems(linegetm)
+            name_list = [item['name'] for item in linegetm]
+            self.callWindowView.loccomboBox.clear()
+            self.callWindowView.loccomboBox.addItems(name_list)
 
     def machineList(self):
-        machinegetm = callWModel.machinemodel(self)
+        id = int(self.getID())
+        machinegetm = callWModel.machinemodel(self,id)
         if machinegetm :
-               self.callWindowView.machinecomboBox.addItems(machinegetm)
+            name_list = [item['name'] for item in machinegetm]
+            self.callWindowView.machinecomboBox.clear()
+            self.callWindowView.machinecomboBox.addItems(name_list)
 
     def problist(self):
-        probgetm = callWModel.probmodel(self)
+        id = int(self.getID())
+        probgetm = callWModel.probmodel(self,id)
         if probgetm :
-               self.callWindowView.probcomboBox.addItems(probgetm)
+               name_list = [item['issue'] for item in probgetm]
+               self.callWindowView.probcomboBox.clear()
+               self.callWindowView.probcomboBox.addItems(name_list)
     
     def callControllerButton(self):
         self.callWindowView.cancelButton.clicked.connect(self.closeCall)
         self.callWindowView.okCallButton.clicked.connect(self.okCall)
     
     def okCall(self):
+        id = int(self.getID())
         locc=self.callWindowView.loccomboBox.currentText()
         machinec=self.callWindowView.machinecomboBox.currentText()
         probc=self.callWindowView.probcomboBox.currentText()
@@ -52,9 +70,9 @@ class callWindowController:
         problemafterc="-"
         timefinish="-"
         namemtc="-"
-        callmodel= callWModel.callmodel(self,locc,machinec,probc,commentText,dateSt,timeSt,timeRs,status,solve,problemafterc,timefinish,namemtc)
+        callmodel= callWModel.callmodel(self,id,locc,machinec,probc,commentText,dateSt,timeSt,timeRs,status,solve,problemafterc,timefinish,namemtc)
         if callmodel:
-            self.appcontextw.openmainWindow(self.appcontextw.getuser)
+            self.appcontextw.openmainWindow()
             self.callWindowView.close()
 
     def closeCall(self):

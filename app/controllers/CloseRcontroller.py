@@ -5,6 +5,7 @@ from PyQt6.QtCore import Qt,QPoint, QTimer
 from datetime import datetime
 from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 import numpy as np
+import os, json
 
 class closeRcontroller:
     def __init__(self,closeV,appcontext):
@@ -33,18 +34,41 @@ class closeRcontroller:
             rowdata['problemafterc'] = self.closeV.probactext.toPlainText()
             rowdata['solve'] = self.closeV.solvetext.toPlainText()
             rowdata['timefinish'] = datetime.now().strftime("%H:%M:%S")
-            rowdata['namemtc'] = self.appcontextw.getuser
-            postCloseTask = closeCModel.closeTaskModel(self,rowdata)
+            rowdata['namemtc'] = self.getUsername()
+            id = self.getID()
+            postCloseTask = closeCModel.closeTaskModel(self,rowdata,id)
             if postCloseTask :
                 self.closeV.close()
     
+    def getUsername(self):
+        if os.path.exists("user.json"):
+            with open("user.json", "r") as f:
+                data = json.load(f)
+                return data.get("username") 
+    def getID(self):
+        if os.path.exists("user.json"):
+            with open("user.json", "r") as f:
+                data = json.load(f)
+                return data.get("id")  
+            
     def getData(self):
         dateSt = str(datetime.now().strftime("%d-%m-%Y"))
-        getData = closeCModel.updatetable(self,dateSt)
-        return getData
+        id = self.getID()
+        getData = closeCModel.tableModel(self,dateSt,id)
+        if not getData or not isinstance(getData[0], dict):
+            self.array_respon = []
+            return self.array_respon
+        name_list = [item['status'] for item in getData]
+        print(name_list)
+        if 'waiting' in name_list:
+            self.array_respon = [list(item.values())[1:] for item in getData]
+        else:
+            self.array_respon=[]
+        return self.array_respon
     
     def updateTableC(self):
-        updateTable = closeRcontroller.getData(self)
+        updateTable = self.getData()
+        print(updateTable)
         if updateTable:
             self.closeV.tableWidget.setRowCount(len(updateTable))
             for row_idx, row in enumerate(updateTable):

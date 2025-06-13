@@ -4,7 +4,8 @@ from PyQt6 import uic
 from PyQt6.QtCore import Qt
 from PyQt6.QtCore import Qt,QPoint, QTimer
 from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
-import requests
+import os
+import json
 
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QSize
@@ -17,6 +18,14 @@ class loginView(QtWidgets.QMainWindow):
         self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.dragPos = None
+        accname = self.getUsernameAcc()
+        self.acc_name.setText("Hi, "+accname)
+    
+    def getUsernameAcc(self):
+        if os.path.exists("session.json"):
+            with open("session.json", "r") as f:
+                data = json.load(f)
+                return data.get("username")
         
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
@@ -51,13 +60,13 @@ class registerWindow(QtWidgets.QMainWindow):
         
 
 class mainView(QtWidgets.QMainWindow):
-    def __init__(self,getusername, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         uic.loadUi("ui/mainwindow.ui", self)
         self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.dragPos = None
-        self.usernameLogin= getusername
+        self.usernameLogin= self.getUsernameUsr()
         self.userLabel.setText("Hi, "+ self.usernameLogin)
         self.callButton.setIcon(QIcon("icon/call.png"))
         self.callButton.setIconSize(QSize(32, 32))
@@ -68,6 +77,12 @@ class mainView(QtWidgets.QMainWindow):
         self.homeButton.setIcon(QIcon("icon/home.png"))
         self.homeButton.setIconSize(QSize(32, 32))
         self.homeButton.setEnabled(False)
+    
+    def getUsernameUsr(self):
+        if os.path.exists("user.json"):
+            with open("user.json", "r") as f:
+                data = json.load(f)
+                return data.get("username")
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
@@ -131,6 +146,26 @@ class closeresponView(QtWidgets.QMainWindow):
         self.tableWidget.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         self.tableWidget.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
     
+    def mousePressEvent(self, event):
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if event.buttons() == Qt.MouseButton.LeftButton and self.dragPos:
+            self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos)
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()
+
+class startedView(QtWidgets.QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        uic.loadUi("ui/started.ui", self)
+        self.setFixedSize(1300, 759)
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint |Qt.WindowType.MSWindowsFixedSizeDialogHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.dragPos = None
+        
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             self.dragPos = event.globalPosition().toPoint()

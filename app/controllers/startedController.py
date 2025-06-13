@@ -6,7 +6,7 @@ from email.message import EmailMessage
 import ssl
 import smtplib
 from PyQt6.QtCore import QTimer,Qt
-from Model.model import registerModel,LoginModel
+from models.model import registerSModel, LoginSModel
 from PyQt6.QtWidgets import QMessageBox
 
 load_dotenv()
@@ -14,9 +14,10 @@ email = os.getenv("email")
 password = os.getenv("password")
 
 class startedC :
-    def __init__(self,startedView,AppW):
-        self.startedView=startedView
-        self.AppW=AppW
+    def __init__(self,appcontext,startedV):
+        self.startedView=startedV
+        self.appcontexttw = appcontext
+        
         self.startedContr()
     
     def startedContr(self):
@@ -25,21 +26,21 @@ class startedC :
         
     
     def buttonstartedC(self):
-        self.AppW.verifButton.clicked.connect(self.verifButtonC)
-        self.AppW.registerBtn.clicked.connect(self.registerAcc)
-        self.AppW.closeBtn.clicked.connect(self.closeW)
-        self.AppW.minBtn.clicked.connect(self.minW)
-        self.AppW.loginButton.clicked.connect(self.loginAcc)
+        self.startedView.verifButton.clicked.connect(self.verifButtonC)
+        self.startedView.registerBtn.clicked.connect(self.registerAcc)
+        self.startedView.closeBtn.clicked.connect(self.closeW)
+        self.startedView.minBtn.clicked.connect(self.minW)
+        self.startedView.loginButton.clicked.connect(self.loginAcc)
     
     def minW(self):
-        self.AppW.showMinimized()
+        self.startedView.showMinimized()
     
     def closeW(self):
-        self.AppW.close()
+        self.startedView.close()
     
     def verifButtonC(self):
         try:
-            self.AppW.verifButton.setEnabled(False)
+            self.startedView.verifButton.setEnabled(False)
             self.verification_code = startedC.generate_code(self)
             print(self.verification_code)
             receiver_email = self.AppW.emailRLine.text()
@@ -67,33 +68,33 @@ class startedC :
 
     def update_timer(self):
         self.time_left -= 1
-        self.AppW.verifButton.setText(str(self.time_left))
+        self.startedView.verifButton.setText(str(self.time_left))
         if self.time_left <= 0 :
-            self.AppW.verifButton.setText("Verif")
-            self.AppW.verifButton.setEnabled(True)
+            self.startedView.verifButton.setText("Verif")
+            self.startedView.verifButton.setEnabled(True)
             self.timer.stop()
 
     def generate_code(self):
         return str(random.randint(100000,999999))
 
     def clearLineR(self):
-        self.AppW.usernameRLine.clear()
-        self.AppW.passwordRLine.clear()    
-        self.AppW.emailRLine.clear()
-        self.AppW.codeRLine.clear()
+        self.startedView.usernameRLine.clear()
+        self.startedView.passwordRLine.clear()    
+        self.startedView.emailRLine.clear()
+        self.startedView.codeRLine.clear()
         self.time_left = 0 
 
 
     def registerAcc(self):
-        username = self.AppW.usernameRLine.text()
-        password = self.AppW.passwordRLine.text()    
-        email = self.AppW.emailRLine.text()
-        codeV = self.AppW.codeRLine.text()
+        username = self.startedView.usernameRLine.text()
+        password = self.startedView.passwordRLine.text()    
+        email = self.startedView.emailRLine.text()
+        codeV = self.startedView.codeRLine.text()
         
         if username and password and email and codeV:
             if codeV == self.verification_code:
                 try :
-                    regmodel = registerModel()
+                    regmodel = registerSModel()
                     self.registerM = regmodel.registerS(username,password,email)
                     if isinstance(self.registerM, tuple) and self.registerM[0]:
                         message = str(self.registerM[1])
@@ -106,25 +107,39 @@ class startedC :
                     print(e)
 
     def loginAcc(self):
-        username = self.AppW.usernameL.text()
-        password = self.AppW.usernameL.text()  
+        username = self.startedView.usernameL.text()
+        password = self.startedView.passwordL.text()
         if username and password :
             try :
-                loginmodel = LoginModel()
+                loginmodel = LoginSModel()
                 self.loginM = loginmodel.loginS(username,password)
-                if isinstance(self.loginM, tuple) and self.loginM[0]:
-                        message = str(self.loginM[1])
-                        QMessageBox.critical(self.AppW, "Gagal", message)
-                        self.clearLineR()
-                else:
-                    QMessageBox.information(self.AppW,"success","loginSuccess")
-                    self.clearLineR()
-                    self.saveLogInfo(username)
+                if self.loginM :
+                    data = self.loginM[0]
+                    getUsername = data['username']
+                    getid = data['id']
+                    self.saveLogInfo(getid,getUsername)
+                    QMessageBox.information(self.startedView,"success","loginSuccess")
+                    self.appcontexttw.open_loginwindow()
+                    self.startedView.close()
+                    
+                else :
+                    print("error")
+                    message = str(self.loginM[0])
+                    QMessageBox.critical(self.startedView, "Gagal", message)
+                # if isinstance(self.loginM, tuple) and self.loginM[0]:
+                #         message = str(self.loginM[1])
+                #         QMessageBox.critical(self.AppW, "Gagal", message)
+                #         self.clearLineR()
+                # else:
+                #     QMessageBox.information(self.AppW,"success","loginSuccess")
+                #     self.clearLineR()
+                #     # self.saveLogInfo(username)
+                #     print(self.loginM)
             except Exception as e :
                     print(e)
     
-    def saveLogInfo(self,username):
-        session_data = {"username": username}
+    def saveLogInfo(self,getid,getUsername):
+        session_data = {"id":getid,"username": getUsername}
         with open("session.json", "w") as f:
             json.dump(session_data, f)
 
