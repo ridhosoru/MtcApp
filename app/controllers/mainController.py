@@ -18,84 +18,84 @@ class mainWinC:
         self.tabletask()
         self.setupAutoRefresh()
     #     # self.getStatusR()
-        # self.mtcPerfomance()
+        self.mtcPerfomance()
         
-    # def mtcPerfomance(self):
-    #     self.avgTimeRespon()
-    #     self.totalTask()
-    #     self.taskWaiting()
-    #     self.taskComplete()
-    #     self.avgTimeComplete()
-    #     self.getStatusR()
+    def mtcPerfomance(self):
+        self.avgTimeRespon()
+        self.totalTask()
+        self.taskWaiting()
+        self.taskComplete()
+        self.avgTimeComplete()
+        self.getStatusR()
     
-    # def totalTask(self):
-    #     if self.data:
-    #         status = [row[0] for row in self.data]
-    #         TotalTask = len(status)
-    #         self.mainView.label_totTask.setText("TOTAL TASK : "+str(TotalTask))
+    def totalTask(self):
+        if self.array_item:
+            status = [row[0] for row in self.array_item]
+            TotalTask = len(status)
+            self.mainView.label_totTask.setText("TOTAL TASK : "+str(TotalTask))
     
-    # def taskWaiting(self):
-    #     if self.data :
-    #         status = [row[0] for row in self.data]
-    #         tot_taskWaiting = status.count('waiting')
-    #         self.mainView.label_taskWaiting.setText("TASK WAITING : "+str(tot_taskWaiting))
+    def taskWaiting(self):
+        if self.array_item :
+            status = [row[0] for row in self.array_item]
+            tot_taskWaiting = status.count('waiting')
+            self.mainView.label_taskWaiting.setText("TASK WAITING : "+str(tot_taskWaiting))
     
-    # def taskComplete(self):
-    #     if self.data :
-    #         status = [row[0] for row in self.data]
-    #         tot_taskComplete = status.count('Done')
-    #         self.mainView.label_taskComplete.setText("TASK COMPLETE:  "+str(tot_taskComplete))
+    def taskComplete(self):
+        if self.array_item :
+            status = [row[0] for row in self.array_item]
+            tot_taskComplete = status.count('Done')
+            self.mainView.label_taskComplete.setText("TASK COMPLETE:  "+str(tot_taskComplete))
     
-    # def avgTimeComplete(self):
-    #     if self.data:
-    #         status = [row[0] for row in self.data]
-    #         timerespon = [row[3] for row in self.data]
-    #         timefinish = [row[10] for row in self.data]
-    #         formattime = '%H:%M:%S'
-    #         if "Calling" in status:
-    #             self.mainView.label_AvgTC.setText("AVG TIME COMPLETE : Complete Task Waiting")
-    #         elif "waiting" in status :
-    #             self.mainView.label_AvgTC.setText("AVG TIME COMPLETE : Complete Task Waiting")
-    #         else :
-    #             timefinishdt = [datetime.strptime(time,formattime)for time in timefinish]
-    #             timerespondt = [datetime.strptime(time,formattime)for time in timerespon]
-    #             timeoperate = [finish-respon for finish,respon in zip(timefinishdt,timerespondt)]
-    #             total_seconds = sum(delta.total_seconds()for delta in timeoperate)
-    #             totalminutes = total_seconds/60
-    #             avgminutes= totalminutes/len(self.data)
-    #             if avgminutes >= 60 :
-    #                 avghours = round(avgminutes/60,2)
+    def avgTimeComplete(self):
+        if self.array_item:
+            status = [row[0] for row in self.array_item]
+            timerespon = [row[3] for row in self.array_item]
+            timefinish = [row[10] for row in self.array_item]
+            formattime = '%H:%M:%S'
+            if "Calling" in status:
+                self.mainView.label_AvgTC.setText("AVG TIME COMPLETE : Complete Task Waiting")
+            elif "waiting" in status :
+                self.mainView.label_AvgTC.setText("AVG TIME COMPLETE : Complete Task Waiting")
+            else :
+                timefinishdt = [datetime.strptime(time,formattime)for time in timefinish]
+                timerespondt = [datetime.strptime(time,formattime)for time in timerespon]
+                timeoperate = [finish-respon for finish,respon in zip(timefinishdt,timerespondt)]
+                total_seconds = sum(delta.total_seconds()for delta in timeoperate)
+                totalminutes = total_seconds/60
+                avgminutes= totalminutes/len(self.data)
+                if avgminutes >= 60 :
+                    avghours = round(avgminutes/60,2)
                 
-    #                 self.mainView.label_AvgTC.setText("AVG TIME COMPLETE(Hours) : "+str(avghours))
-    #             else:
-    #                 avgminutes_up= round(avgminutes,2)
-    #                 self.mainView.label_AvgTC.setText("AVG TIME COMPLETE(minutes) : "+str(avgminutes_up))
+                    self.mainView.label_AvgTC.setText("AVG TIME COMPLETE(Hours) : "+str(avghours))
+                else:
+                    avgminutes_up= round(avgminutes,2)
+                    self.mainView.label_AvgTC.setText("AVG TIME COMPLETE(minutes) : "+str(avgminutes_up))
 
 
             
-    # def avgTimeRespon(self):
-    #     if self.data:
-    #         timerespon = [row[3] for row in self.data]
-    #         timestart = [row[2] for row in self.data]
-    #         status = [row[0] for row in self.data]
-    #         formattime = '%H:%M:%S'
-    #         if "Calling" in status :
-    #             if '-' in timerespon:
-    #                 self.mainView.label_avgTR.setText("AVG TIME RESPON(Hours) : Respon Another Call")
-    #         else:
-    #             timestartdt = [datetime.strptime(time,formattime)for time in timestart]
-    #             timerespondt = [datetime.strptime(time,formattime)for time in timerespon]
-    #             timeoperate = [respon-start for start,respon in zip(timestartdt,timerespondt)]
-    #             total_seconds = sum(delta.total_seconds()for delta in timeoperate)
-    #             totalminutes = total_seconds/60
-    #             avgminutes= totalminutes/len(self.data)
-    #             if avgminutes >= 60 :
-    #                 avghours = round(avgminutes/60,2)
+    def avgTimeRespon(self):
+        if self.array_item:
+            timerespon = [row[3] for row in self.array_item]
+            timestart = [row[2] for row in self.array_item]
+            status = [row[0] for row in self.array_item]
+            formattime = '%H:%M:%S'
+            if "Calling" in status :
+                if '-' in timerespon:
+                    self.mainView.label_avgTR.setText("AVG TIME RESPON(Hours) : Respon Another Call")
+            else:
+                timestartdt = [datetime.strptime(time,formattime)for time in timestart]
+                timerespondt = [datetime.strptime(time,formattime)for time in timerespon]
+                timeoperate = [respon-start for start,respon in zip(timestartdt,timerespondt)]
+                total_seconds = sum(delta.total_seconds()for delta in timeoperate)
+                totalminutes = total_seconds/60
+                avgminutes= totalminutes/len(self.array_item)
+                if avgminutes >= 60 :
+                    avghours = round(avgminutes/60,2)
                 
-    #                 self.mainView.label_avgTR.setText("AVG TIME RESPON(Hours) : "+str(avghours))
-    #             else:
-    #                 avgminutes_up= round(avgminutes,2)
-    #                 self.mainView.label_avgTR.setText("AVG TIME RESPON(minutes) : "+str(avgminutes_up))
+                    self.mainView.label_avgTR.setText("AVG TIME RESPON(Hours) : "+str(avghours))
+                else:
+                    avgminutes_up= round(avgminutes,2)
+                    self.mainView.label_avgTR.setText("AVG TIME RESPON(minutes) : "+str(avgminutes_up))
     
     def getStatusR(self):
         if self.array_item:
