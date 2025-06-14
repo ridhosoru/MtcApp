@@ -62,7 +62,7 @@ class mainWinC:
                 timeoperate = [finish-respon for finish,respon in zip(timefinishdt,timerespondt)]
                 total_seconds = sum(delta.total_seconds()for delta in timeoperate)
                 totalminutes = total_seconds/60
-                avgminutes= totalminutes/len(self.data)
+                avgminutes= totalminutes/len(self.array_item)
                 if avgminutes >= 60 :
                     avghours = round(avgminutes/60,2)
                 
@@ -114,6 +114,21 @@ class mainWinC:
         self.mainView.callButton.clicked.connect(self.callButtonA)
         self.mainView.callresponseButton.clicked.connect(self.responseButtonA)
         self.mainView.closecallButton.clicked.connect(self.closeCallA)
+        self.mainView.closeButton.clicked.connect(self.closeM)
+        self.mainView.minButton.clicked.connect(self.minM)
+        self.mainView.logoutButton.clicked.connect(self.logout)
+    
+    def logout(self):
+        if os.path.exists("user.json"):
+            os.remove("user.json")
+            self.mainView.close()
+            self.appcontextw.open_loginwindow()
+    
+    def minM(self):
+        self.mainView.showMinimized()
+
+    def closeM(self):
+        self.mainView.close()
     
     def closeCallA(self):
         self.appcontextw.closeCallWindow()
@@ -134,19 +149,23 @@ class mainWinC:
         dateSt = str(datetime.now().strftime("%d-%m-%Y"))
         id =  self.getID()
         # getData = MainModel.getMaintenanceP(self,dateSt)
-        tabletaskupdate= MainModel.getMaintenanceP(self,dateSt,id)
-        self.array_item = [list(item.values())[1:] for item in tabletaskupdate]
-        status_order = ['Calling', 'waiting', 'Done']
-        self.array_item.sort(key=lambda row: status_order.index(row[0]) if row[0] in status_order else len(status_order))
-        # tabletaskupdate = MainModel.tableTaskM(self)
-        if tabletaskupdate :
-            print(self.array_item)
-            self.mainView.tableWidget.setRowCount(len(self.array_item))
-            for row_idx, row in enumerate(self.array_item):
-                for col_idx, value in enumerate(row):
-                    self.mainView.tableWidget.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
-        for i in range(7, 10):
-            self.mainView.tableWidget.setColumnWidth(i, 250)
+        try:
+            tabletaskupdate= MainModel.getMaintenanceP(self,dateSt,id)
+            self.array_item = [list(item.values())[1:] for item in tabletaskupdate]
+            status_order = ['Calling', 'waiting', 'Done']
+            self.array_item.sort(key=lambda row: status_order.index(row[0]) if row[0] in status_order else len(status_order))
+            # tabletaskupdate = MainModel.tableTaskM(self)
+            if tabletaskupdate :
+                print(self.array_item)
+                self.mainView.tableWidget.setRowCount(len(self.array_item))
+                for row_idx, row in enumerate(self.array_item):
+                    for col_idx, value in enumerate(row):
+                        self.mainView.tableWidget.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
+            for i in range(7, 10):
+                self.mainView.tableWidget.setColumnWidth(i, 250)
+        except Exception as e :
+            tabletaskupdate=[]
+            self.array_item=[]
 
     def timerU(self):
         self.timer = QTimer()
