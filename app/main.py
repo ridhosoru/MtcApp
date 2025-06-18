@@ -1,7 +1,7 @@
 import sys
 import os
 from PyQt6.QtWidgets import QApplication
-from views.view import loginView,registerWindow,mainView,callWindowView,responView,closeresponView,startedView
+from views.view import loginView,registerWindow,mainView,callWindowView,responView,closeresponView,startedView,NoteWindow
 from controllers.mainController import mainWinC
 from controllers.loginController import logincontroller
 from controllers.registerWindowController import registerwindowcontroller
@@ -9,6 +9,7 @@ from controllers.callWindowController import callWindowController
 from controllers.responseWindowController import responseWindowController
 from controllers.CloseRcontroller import closeRcontroller
 from controllers.startedController import startedC
+from controllers.noteController import noteCon
 
 class appcontext:
     def __init__(self):
@@ -45,6 +46,12 @@ class appcontext:
         self.controller = mainWinC(mainv,self)
         self.mainv = mainv
         self.mainv.show()
+    
+    def openNote(self):
+        notev = NoteWindow()
+        self.controller=noteCon(notev,self)
+        self.notev=notev
+        self.notev.show()
     
     def callWindow(self):
         if self.callV is None or not self.callV.isVisible():

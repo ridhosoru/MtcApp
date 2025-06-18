@@ -566,7 +566,7 @@ border-radius :10px;
        <string>Note</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="addNButton">
       <property name="geometry">
        <rect>
         <x>390</x>

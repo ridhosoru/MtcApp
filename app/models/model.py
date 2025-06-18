@@ -48,9 +48,10 @@ class loginmodel:
         try :
             if response.status_code == 200 :
                 return response.json()
+            elif response.status_code == 409:
+                return None  
             else:
-                message = "wrong username or password"
-                return False,message
+                return None 
         except Exception as e:
             print(e)
 
@@ -237,4 +238,20 @@ class closeCModel:
         except Exception as e:
                 print(e)
 
-            
+class addNote:
+    def sendNote(self,username,id,subject,notetext):
+        url ="http://127.0.0.1:8000/addnote"
+        payload = {"username":username, "id":id,"subject":subject,"notetext":notetext}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                data=response.json()
+                return data
+            else:
+                if response.status_code == 409:
+                    message = "error"
+                    return False,message
+                else :
+                    message = "error"
+        except Exception as e:
+            print(e)

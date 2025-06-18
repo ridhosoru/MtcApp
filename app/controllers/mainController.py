@@ -117,7 +117,11 @@ class mainWinC:
         self.mainView.closeButton.clicked.connect(self.closeM)
         self.mainView.minButton.clicked.connect(self.minM)
         self.mainView.logoutButton.clicked.connect(self.logout)
+        self.mainView.addNButton.clicked.connect(self.openAddN)
     
+    def openAddN(self):
+        self.appcontextw.openNote()
+        
     def logout(self):
         if os.path.exists("user.json"):
             os.remove("user.json")

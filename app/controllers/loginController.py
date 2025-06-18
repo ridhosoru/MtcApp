@@ -57,7 +57,7 @@ class logincontroller:
             else :
                 QMessageBox.warning(self.loginv,"Fail","Fill in username or password")
         except Exception as e:
-            print(e)
+            QMessageBox.warning(self.loginv,"fail",str(e))
 
     def saveLogInfo(self,getid,getUsername,worknumber):
         session_data = {"id":getid,"username": getUsername,"worknumber":worknumber}

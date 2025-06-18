@@ -136,7 +136,7 @@ class startedC :
                 #     # self.saveLogInfo(username)
                 #     print(self.loginM)
             except Exception as e :
-                    print(e)
+                    QMessageBox.warning(self.startedView,"Fail","Error Login")
     
     def saveLogInfo(self,getid,getUsername):
         session_data = {"id":getid,"username": getUsername}
