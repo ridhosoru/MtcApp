@@ -22,6 +22,27 @@ class registerSModel:
                     message = "error check your internet,you email format etc"
         except Exception as e:
             print(e)
+    
+    def adminacc(self):
+        url = "http://127.0.0.1:8000/getCred"
+        
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                try:
+                    data = response.json()
+                    email = data.get("email")
+                    password = data.get("password")
+                    return email, password
+                except Exception as e:
+                    print("JSON parse error:", e)
+                    return None
+            else:
+                print("Gagal ambil kredensial")
+                return None
+        except requests.exceptions.RequestException as e:
+            print("Network error:", e)
+            return None
 
 
 class LoginSModel:
@@ -93,6 +114,19 @@ class MainModel:
                 "datestart": dateSt
             }
             url= "http://127.0.0.1:8000/getTask"
+            response = requests.post(url,json=payload)
+            if response.status_code == 200 :
+                result= response.json()
+                return result
+        except Exception as e :
+            print(e)
+    
+    def getAllTask(self,id):
+        try:
+            payload={
+                "id" : id,
+            }
+            url= "http://127.0.0.1:8000/getAllTask"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 result= response.json()

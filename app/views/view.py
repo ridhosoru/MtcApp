@@ -76,7 +76,21 @@ class mainView(QtWidgets.QMainWindow):
         self.closecallButton.setIconSize(QSize(32, 32))
         self.homeButton.setIcon(QIcon("icon/home.png"))
         self.homeButton.setIconSize(QSize(32, 32))
+        self.alltaskButton.setIcon(QIcon("icon/paper.png"))
+        self.alltaskButton.setIconSize(QSize(32, 32))
         self.homeButton.setEnabled(False)
+        self.homeButton.clicked.connect(self.home)
+        self.alltaskButton.clicked.connect(self.alltask)
+    
+    def home(self):
+        self.stackedWidget.setCurrentIndex(0)
+        self.homeButton.setEnabled(False)
+        self.alltaskButton.setEnabled(True)
+    
+    def alltask(self):
+        self.stackedWidget.setCurrentIndex(1)
+        self.alltaskButton.setEnabled(False)
+        self.homeButton.setEnabled(True)
     
     def getUsernameUsr(self):
         if os.path.exists("user.json"):

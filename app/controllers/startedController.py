@@ -9,9 +9,6 @@ from PyQt6.QtCore import QTimer,Qt
 from models.model import registerSModel, LoginSModel
 from PyQt6.QtWidgets import QMessageBox
 
-load_dotenv()
-email = os.getenv("email")
-password = os.getenv("password")
 
 class startedC :
     def __init__(self,appcontext,startedV):
@@ -23,6 +20,7 @@ class startedC :
     def startedContr(self):
         self.generate_code()
         self.buttonstartedC()
+        self.getadm()
         
     
     def buttonstartedC(self):
@@ -38,23 +36,32 @@ class startedC :
     def closeW(self):
         self.startedView.close()
     
+    def getadm(self):
+        try:
+            getadmdata= registerSModel.adminacc(self)
+            if getadmdata:
+                self.email=getadmdata[0]
+                self.password = getadmdata[1]
+        except Exception as e:
+            QMessageBox.warning(self.startedView,"fail get adm",str(e))
+    
     def verifButtonC(self):
         try:
             self.startedView.verifButton.setEnabled(False)
             self.verification_code = startedC.generate_code(self)
             print(self.verification_code)
-            receiver_email = self.AppW.emailRLine.text()
+            receiver_email = self.startedView.emailRLine.text()
             print(receiver_email)
-            print(email)
-            print(password)
+            print(self.email)
+            print(self.password)
             message = EmailMessage()
             message["Subject"] = "Your Verification Code"
-            message["From"] = email
+            message["From"] = self.email
             message["To"] = receiver_email
             message.set_content(f"Your verification code is: {self.verification_code}")
             context = ssl.create_default_context()
             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-                server.login(email, password)
+                server.login(self.email, self.password)
                 server.send_message(message)
             self.timerVerif()
         except Exception as e :
@@ -98,10 +105,10 @@ class startedC :
                     self.registerM = regmodel.registerS(username,password,email)
                     if isinstance(self.registerM, tuple) and self.registerM[0]:
                         message = str(self.registerM[1])
-                        QMessageBox.critical(self.AppW, "Gagal", message)
+                        QMessageBox.critical(self.startedView, "Gagal", message)
                         self.clearLineR()
                     else:
-                        QMessageBox.information(self.AppW,"success","success add user")
+                        QMessageBox.information(self.startedView,"success","success add user")
                         self.clearLineR()
                 except Exception as e :
                     print(e)

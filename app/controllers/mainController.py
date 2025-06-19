@@ -20,6 +20,7 @@ class mainWinC:
     #     # self.getStatusR()
         self.mtcPerfomance()
         self.getNote()
+        self.allTask()
         
     def mtcPerfomance(self):
         self.avgTimeRespon()
@@ -186,6 +187,7 @@ class mainWinC:
         self.timerT = QTimer()
         self.timerT.timeout.connect(self.tabletask)
         self.timerT.timeout.connect(self.getStatusR)
+        self.timerT.timeout.connect(self.allTask)
         # self.timerT.timeout.connect(self.mtcPerfomance)
         self.timerT.start(5000)
 
@@ -206,16 +208,29 @@ class mainWinC:
                     date = row["datenote"] 
                     subject = row["subject"]
                     note = row["notetext"]
-
                     notes_text += f"- {date} ({subject})\n{note}\n\n"
-
                 self.mainView.textBrowser.setText(notes_text)
-                
+        except Exception as e:
+            getnote=[]
 
+    
+    def allTask(self):
+        id = self.getID()
+        try:
+            getaltask = MainModel.getAllTask(self,id)
+            alltask_data = [list(item.values())[1:] for item in getaltask]
+            
+            if getaltask :
+                self.mainView.tableWidget_2.setRowCount(len(alltask_data))
+                for row_idx, row in enumerate(alltask_data):
+                    for col_idx, value in enumerate(row):
+                        self.mainView.tableWidget_2.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
+            for i in range(7, 10):
+                self.mainView.tableWidget_2.setColumnWidth(i, 250)
 
         except Exception as e:
-            QMessageBox.warning(self.mainView,"fail",str(e))
-            
+            getaltask=[]
+
 
 
 
