@@ -1,5 +1,5 @@
 from views.view import loginView
-from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel
+from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel,addNote
 from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtCore import Qt,QPoint, QTimer
 from datetime import datetime
@@ -19,6 +19,7 @@ class mainWinC:
         self.setupAutoRefresh()
     #     # self.getStatusR()
         self.mtcPerfomance()
+        self.getNote()
         
     def mtcPerfomance(self):
         self.avgTimeRespon()
@@ -188,6 +189,33 @@ class mainWinC:
         # self.timerT.timeout.connect(self.mtcPerfomance)
         self.timerT.start(5000)
 
+    def getUsername(self):
+        if os.path.exists("user.json"):
+            with open("user.json", "r") as f:
+                data = json.load(f)
+                return data.get("username")
+
+    def getNote(self):
+        id = self.getID()
+        username = self.getUsername()
+        try :
+            getnote = addNote.getnote(self,id,username)
+            notes_text = ""
+            if getnote:
+                for row in getnote:
+                    date = row["datenote"] 
+                    subject = row["subject"]
+                    note = row["notetext"]
+
+                    notes_text += f"- {date} ({subject})\n{note}\n\n"
+
+                self.mainView.textBrowser.setText(notes_text)
+                
+
+
+        except Exception as e:
+            QMessageBox.warning(self.mainView,"fail",str(e))
+            
 
 
 

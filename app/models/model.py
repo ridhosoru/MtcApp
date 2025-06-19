@@ -239,10 +239,27 @@ class closeCModel:
                 print(e)
 
 class addNote:
-    def sendNote(self,username,id,subject,notetext):
+    def sendNote(self,username,id,subject,notetext,datenote):
         url ="http://127.0.0.1:8000/addnote"
-        payload = {"username":username, "id":id,"subject":subject,"notetext":notetext}
+        payload = {"username":username, "id":id,"subject":subject,"notetext":notetext,"datenote":datenote}
         response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                data=response.json()
+                return data
+            else:
+                if response.status_code == 409:
+                    message = "error"
+                    return False,message
+                else :
+                    message = "error"
+        except Exception as e:
+            print(e)
+    
+    def getnote(self,id,username):
+        url = "http://127.0.0.1:8000/getNote"
+        payload = {"id":id, "username":username}
+        response = requests.post(url,json=payload)
         try :
             if response.status_code == 200 :
                 data=response.json()

@@ -1,6 +1,7 @@
 import json,os
 from models.model import addNote
 from PyQt6.QtWidgets import QMessageBox
+from datetime import datetime
 
 class noteCon:
     def __init__(self,notev,appcontext):
@@ -34,8 +35,9 @@ class noteCon:
         id = self.getID()
         subject = self.notev.subjectLine.text()
         notetext = self.notev.noteLine.toPlainText()
+        datenote = datetime.now().strftime("%d-%m-%Y")
         try :
-            addnote = addNote.sendNote(self,username,id,subject,notetext)
+            addnote = addNote.sendNote(self,username,id,subject,notetext,datenote)
             if addnote :
                 QMessageBox.information(self.notev,"success","success add note")
                 self.appcontextw.openmainWindow()

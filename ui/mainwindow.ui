@@ -541,6 +541,19 @@ border-radius :10px;
          <height>121</height>
         </rect>
        </property>
+       <widget class="QTextBrowser" name="textBrowser">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>0</y>
+          <width>351</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QLabel" name="label_4">
