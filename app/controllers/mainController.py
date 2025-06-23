@@ -120,6 +120,28 @@ class mainWinC:
         self.mainView.minButton.clicked.connect(self.minM)
         self.mainView.logoutButton.clicked.connect(self.logout)
         self.mainView.addNButton.clicked.connect(self.openAddN)
+        self.mainView.homeButton.setEnabled(False)
+        self.mainView.homeButton.clicked.connect(self.home)
+        self.mainView.alltaskButton.clicked.connect(self.alltask)
+        self.mainView.regProdBtn.clicked.connect(self.regProd)
+    
+    def home(self):
+        self.mainView.stackedWidget.setCurrentIndex(0)
+        self.mainView.homeButton.setEnabled(False)
+        self.mainView.alltaskButton.setEnabled(True)
+        self.mainView.regProdBtn.setEnabled(True)
+    
+    def alltask(self):
+        self.mainView.stackedWidget.setCurrentIndex(1)
+        self.mainView.alltaskButton.setEnabled(False)
+        self.mainView.homeButton.setEnabled(True)
+        self.mainView.regProdBtn.setEnabled(True)
+    
+    def regProd(self):
+        self.mainView.stackedWidget.setCurrentIndex(2)
+        self.mainView.regProdBtn.setEnabled(False)
+        self.mainView.alltaskButton.setEnabled(True)
+        self.mainView.homeButton.setEnabled(True)
     
     def openAddN(self):
         self.appcontextw.openNote()
