@@ -193,7 +193,7 @@
        </iconset>
       </property>
      </widget>
-     <widget class="QPushButton" name="callButton_5">
+     <widget class="QPushButton" name="storeBtn">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -211,7 +211,7 @@
        </iconset>
       </property>
      </widget>
-     <widget class="QPushButton" name="callButton_6">
+     <widget class="QPushButton" name="settingBtn">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -890,6 +890,52 @@ border-radius :10px;
         <property name="lineWidth">
          <number>1</number>
         </property>
+        <widget class="QLabel" name="label_7">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>10</y>
+           <width>151</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>25</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>Machine</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="machInLine">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>110</y>
+           <width>171</width>
+           <height>20</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="machInBtn">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>180</y>
+           <width>111</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Input</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QFrame" name="frame_10">
         <property name="geometry">
@@ -915,6 +961,52 @@ border-radius :10px;
         <property name="lineWidth">
          <number>1</number>
         </property>
+        <widget class="QLabel" name="label_8">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>10</y>
+           <width>151</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>25</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>Location</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="LocInLine">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>110</y>
+           <width>171</width>
+           <height>20</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="locInBtn">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>180</y>
+           <width>111</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Input</string>
+         </property>
+        </widget>
        </widget>
        <widget class="QFrame" name="frame_11">
         <property name="geometry">
@@ -940,6 +1032,52 @@ border-radius :10px;
         <property name="lineWidth">
          <number>1</number>
         </property>
+        <widget class="QLabel" name="label_9">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>10</y>
+           <width>151</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>25</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string>Problem</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="probInLine">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>110</y>
+           <width>171</width>
+           <height>20</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="probInBtn">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>180</y>
+           <width>111</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Input</string>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>

@@ -1,5 +1,5 @@
 from views.view import loginView
-from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel,addNote
+from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel,addNote,Regprod
 from PyQt6.QtWidgets import QMessageBox
 from PyQt6.QtCore import Qt,QPoint, QTimer
 from datetime import datetime
@@ -21,6 +21,7 @@ class mainWinC:
         self.mtcPerfomance()
         self.getNote()
         self.allTask()
+        self.regProdPage()
         
     def mtcPerfomance(self):
         self.avgTimeRespon()
@@ -252,6 +253,48 @@ class mainWinC:
 
         except Exception as e:
             getaltask=[]
+    
+
+    def regProdPage(self):
+        self.mainView.machInBtn.clicked.connect(self.machineInput)
+        self.mainView.locInBtn.clicked.connect(self.LocInput)
+        self.mainView.probInBtn.clicked.connect(self.probInput)
+
+    def machineInput(self):
+        id = self.getID()
+        name = self.mainView.machInLine.text()
+        try :
+            inpMach = Regprod.machineInp(self,id,name)
+            if inpMach:
+                QMessageBox.information(self.mainView,"success","Success add machine name")
+                self.mainView.machInLine.clear()
+        
+        except Exception as e :
+            QMessageBox.warning(self.mainView,"fail",str(e))
+    
+    def LocInput(self):
+        id = self.getID()
+        name = self.mainView.locInLine.text()
+        try :
+            inpMach = Regprod.LocInp(self,id,name)
+            if inpMach:
+                QMessageBox.information(self.mainView,"success","Success add machine name")
+                self.mainView.locInLine.clear()
+        
+        except Exception as e :
+            QMessageBox.warning(self.mainView,"fail",str(e))
+
+    def probInput(self):
+        id = self.getID()
+        name = self.mainView.probInLine.text()
+        try :
+            inpMach = Regprod.probInp(self,id,name)
+            if inpMach:
+                QMessageBox.information(self.mainView,"success","Success add machine name")
+                self.mainView.probInLine.clear()
+        
+        except Exception as e :
+            QMessageBox.warning(self.mainView,"fail",str(e))
 
 
 

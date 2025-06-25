@@ -306,3 +306,55 @@ class addNote:
                     message = "error"
         except Exception as e:
             print(e)
+
+class Regprod :
+    def machineInp(self,id,name):
+        url ="http://127.0.0.1:8000/regMachine"
+        payload = { "id":id,"name":name,}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                data=response.json()
+                return data
+            else:
+                if response.status_code == 409:
+                    message = "error"
+                    return False,message
+                else :
+                    message = "error"
+        except Exception as e:
+            print(e)
+    
+    def LocInp(self,id,name):
+        url ="http://127.0.0.1:8000/regLoc"
+        payload = { "id":id,"name":name,}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                data=response.json()
+                return data
+            else:
+                if response.status_code == 409:
+                    message = "error"
+                    return False,message
+                else :
+                    message = "error"
+        except Exception as e:
+            print(e)
+    
+    def probInp(self,id,name):
+        url ="http://127.0.0.1:8000/regProb"
+        payload = { "id":id,"name":name,}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                data=response.json()
+                return data
+            else:
+                if response.status_code == 409:
+                    message = "error"
+                    return False,message
+                else :
+                    message = "error"
+        except Exception as e:
+            print(e)
