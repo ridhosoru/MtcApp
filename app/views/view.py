@@ -80,6 +80,8 @@ class mainView(QtWidgets.QMainWindow):
         self.alltaskButton.setIconSize(QSize(32, 32))
         self.regProdBtn.setIcon(QIcon("icon/machine.png"))
         self.regProdBtn.setIconSize(QSize(32, 32))
+        self.storeBtn.setIcon(QIcon("icon/store.png"))
+        self.storeBtn.setIconSize(QSize(32, 32))
         
         
     
