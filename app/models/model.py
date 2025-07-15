@@ -166,7 +166,7 @@ class callWModel:
             payload={
                 "id": id
             }
-            url ="http://127.0.0.1:8000/issueTable"
+            url ="http://127.0.0.1:8000/problemName"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 data = response.json()

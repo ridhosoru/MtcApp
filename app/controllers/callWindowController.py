@@ -48,7 +48,7 @@ class callWindowController:
         id = int(self.getID())
         probgetm = callWModel.probmodel(self,id)
         if probgetm :
-               name_list = [item['issue'] for item in probgetm]
+               name_list = [item['name'] for item in probgetm]
                self.callWindowView.probcomboBox.clear()
                self.callWindowView.probcomboBox.addItems(name_list)
     

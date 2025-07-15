@@ -126,6 +126,7 @@ class mainWinC:
         self.mainView.alltaskButton.clicked.connect(self.alltask)
         self.mainView.regProdBtn.clicked.connect(self.regProd)
         self.mainView.storeBtn.clicked.connect(self.store)
+        self.mainView.addstorebtn.clicked.connect(self.addstore)
 
     
     def home(self):
@@ -307,6 +308,10 @@ class mainWinC:
         
         except Exception as e :
             QMessageBox.warning(self.mainView,"fail",str(e))
+    
+
+    def addstore(self):
+        self.appcontextw.openAddStore()
 
 
 
