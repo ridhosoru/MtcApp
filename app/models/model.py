@@ -358,3 +358,21 @@ class Regprod :
                     message = "error"
         except Exception as e:
             print(e)
+
+class store :
+    def addstore(self,id,namePart,codePart,typePart,stockPart,imgPath):
+        url ="http://127.0.0.1:8000/addstore"
+        payload = { "id":id,"namepart":namePart,"codepart":codePart,"typepart":typePart, "stockpart":stockPart, "imgpath":imgPath}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                data=response.json()
+                return data
+            else:
+                if response.status_code == 409:
+                    message = "error"
+                    return False,message
+                else :
+                    message = "error"
+        except Exception as e:
+            print(e)

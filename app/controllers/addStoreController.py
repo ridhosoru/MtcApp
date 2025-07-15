@@ -1,8 +1,9 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QFileDialog
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
-import os
+import os,json
 import shutil
+from models.model import store 
 
 class addStoreConn:
     def __init__(self,adstore,appcontext):
@@ -47,8 +48,24 @@ class addStoreConn:
         codePart= self.adstore.codeLine.text()
         typePart = self.adstore.typeLine.text()
         stockPart = self.adstore.stockLine.text()
+        id = self.getID()
         self.saveimg(codePart)
+        imgPath = self.folderImg+"/"+codePart
+        print(imgPath)
+        sendAdstore = store.addstore(self,id,namePart,codePart,typePart,stockPart,imgPath)
+        if sendAdstore :
+            self.adstore.namePartLine.setText("")
+            self.adstore.codeLine.setText("")
+            self.adstore.typeLine.setText("")
+            self.adstore.stockLine.setText("")
+            self.adstore.imageLbl.clear()
 
+
+    def getID(self):
+        if os.path.exists("session.json"):
+            with open("session.json", "r") as f:
+                data = json.load(f)
+                return data.get("id")
         
 
         
