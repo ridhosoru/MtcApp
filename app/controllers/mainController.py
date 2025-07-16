@@ -1,6 +1,6 @@
 from views.view import loginView
 from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel,addNote,Regprod,store
-from PyQt6.QtWidgets import QMessageBox,QLabel, QVBoxLayout, QPushButton, QWidget, QScrollArea, QFrame, QGridLayout
+from PyQt6.QtWidgets import QMessageBox,QLabel, QVBoxLayout, QPushButton, QWidget, QScrollArea, QFrame, QGridLayout,QHBoxLayout
 from PyQt6.QtCore import Qt,QPoint, QTimer
 from PyQt6.QtGui import QPixmap
 from datetime import datetime
@@ -186,6 +186,7 @@ class mainWinC:
             """)
 
             vbox = QVBoxLayout()
+            hbox = QHBoxLayout()
             vbox.addWidget(QLabel(f"NamePart: {item['namepart']}"))
             vbox.addWidget(QLabel(f"Code: {item['codepart']}"))
             vbox.addWidget(QLabel(f"Type: {item['typepart']}"))
@@ -199,9 +200,15 @@ class mainWinC:
             else:
                 img_label.setText("Gambar tidak ditemukan")
             vbox.addWidget(img_label)
-            btn = QPushButton("Ambil Produk")
-            btn.clicked.connect(partial(self.takeProduct, item))
-            vbox.addWidget(btn)
+
+            Tbtn = QPushButton("Take Product")
+            Tbtn.clicked.connect(partial(self.takeProduct, item))
+            hbox.addWidget(Tbtn)
+            vbox.addLayout(hbox)
+
+            Ubtn = QPushButton("Update Stock")
+            Ubtn.clicked.connect(partial(self.updateStock, item))
+            hbox.addWidget(Ubtn)
 
             framePart.setLayout(vbox)
             row = index // 4
@@ -210,6 +217,13 @@ class mainWinC:
         container_widget = QWidget()
         container_widget.setLayout(gridlay)
         self.mainView.storeScrollArea.setWidget(container_widget)
+
+    def updateStock(self,item):
+        print("updateStock")
+    
+    def takeProduct(self,item):
+        stock = item['stockpart']
+        print(stock)
         
 
     
