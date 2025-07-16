@@ -3,14 +3,16 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 import os,json
 import shutil
-from models.model import store 
+from models.model import store
 
 class addStoreConn:
     def __init__(self,adstore,appcontext):
         self.adstore = adstore
         self.appcontextw = appcontext
         self.storecontroller()
+        print("debug init success")
         
+
     def storecontroller(self):
         self.storeBtnController()
 
@@ -18,6 +20,7 @@ class addStoreConn:
         self.adstore.cancelBtn.clicked.connect(self.cancelStore)
         self.adstore.imBtn.clicked.connect(self.importImage)
         self.adstore.addBtn.clicked.connect(self.addimStore)
+    
     
     def cancelStore(self):
         self.adstore.close()
@@ -50,7 +53,7 @@ class addStoreConn:
         stockPart = self.adstore.stockLine.text()
         id = self.getID()
         self.saveimg(codePart)
-        imgPath = self.folderImg+"/"+codePart
+        imgPath = self.folderImg+"/"+codePart+".jpg"
         print(imgPath)
         sendAdstore = store.addstore(self,id,namePart,codePart,typePart,stockPart,imgPath)
         if sendAdstore :

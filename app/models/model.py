@@ -376,3 +376,20 @@ class store :
                     message = "error"
         except Exception as e:
             print(e)
+    
+    def getStore(self,id):
+        url = "http://127.0.0.1:8000/getStorePart"
+        payload = { "id":id}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                data=response.json()
+                return data
+            else:
+                if response.status_code == 409:
+                    message = "error"
+                    return False,message
+                else :
+                    message = "error"
+        except Exception as e:
+            print(e)

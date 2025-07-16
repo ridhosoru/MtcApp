@@ -1,11 +1,13 @@
 from views.view import loginView
-from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel,addNote,Regprod
-from PyQt6.QtWidgets import QMessageBox
+from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel,addNote,Regprod,store
+from PyQt6.QtWidgets import QMessageBox,QLabel, QVBoxLayout, QPushButton, QWidget, QScrollArea, QFrame, QGridLayout
 from PyQt6.QtCore import Qt,QPoint, QTimer
+from PyQt6.QtGui import QPixmap
 from datetime import datetime
 from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 import numpy as np
 import os,json
+from functools import partial
 class mainWinC:
     def __init__(self,mainView,appcontext):
         self.mainView = mainView
@@ -152,10 +154,64 @@ class mainWinC:
 
     def store(self):
         self.mainView.stackedWidget.setCurrentIndex(3)
+        self.getStorePart()
         self.mainView.regProdBtn.setEnabled(True)
         self.mainView.alltaskButton.setEnabled(True)
         self.mainView.homeButton.setEnabled(True)
         self.mainView.storeBtn.setEnabled(False)
+    
+    def getStorePart(self):
+        id = self.getID()
+        getmodel = store.getStore(self,id)
+        print(id)
+        if getmodel:
+            print(getmodel)
+            self.displaybox(getmodel)
+    
+    def displaybox(self,getmodel):
+        storedata = getmodel
+        gridlay = QGridLayout()
+        gridlay.setSpacing(20)
+
+        for index, item in enumerate(storedata):
+            framePart = QFrame()
+            framePart.setFixedWidth(200)
+            framePart.setFixedHeight(250)
+            framePart.setObjectName("framepart")
+            framePart.setStyleSheet("""
+                QFrame#framepart{
+                    background-color:#40916c;
+                    border-radius :10px;                    
+                }
+            """)
+
+            vbox = QVBoxLayout()
+            vbox.addWidget(QLabel(f"NamePart: {item['namepart']}"))
+            vbox.addWidget(QLabel(f"Code: {item['codepart']}"))
+            vbox.addWidget(QLabel(f"Type: {item['typepart']}"))
+            vbox.addWidget(QLabel(f"Stock: {item['stockpart']}"))
+
+            img_label = QLabel()
+            img_path = item["imgpath"]
+            if os.path.exists(img_path):
+                pixmap = QPixmap(img_path).scaled(100, 100, Qt.AspectRatioMode.KeepAspectRatio)
+                img_label.setPixmap(pixmap)
+            else:
+                img_label.setText("Gambar tidak ditemukan")
+            vbox.addWidget(img_label)
+            btn = QPushButton("Ambil Produk")
+            btn.clicked.connect(partial(self.takeProduct, item))
+            vbox.addWidget(btn)
+
+            framePart.setLayout(vbox)
+            row = index // 4
+            col = index % 4
+            gridlay.addWidget(framePart, row, col)
+        container_widget = QWidget()
+        container_widget.setLayout(gridlay)
+        self.mainView.storeScrollArea.setWidget(container_widget)
+        
+
     
     def openAddN(self):
         self.appcontextw.openNote()

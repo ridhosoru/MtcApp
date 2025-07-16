@@ -1151,7 +1151,7 @@ border-radius :10px;
          <string>search</string>
         </property>
        </widget>
-       <widget class="QScrollArea" name="scrollArea_2">
+       <widget class="QScrollArea" name="storeScrollArea">
         <property name="geometry">
          <rect>
           <x>50</x>

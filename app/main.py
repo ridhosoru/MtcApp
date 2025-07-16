@@ -56,6 +56,7 @@ class appcontext:
     
     def openAddStore(self):
         adstore = addStoreWindow()
+        print("store calling")
         self.controller=addStoreConn(adstore,self)
         self.adstore=adstore
         self.adstore.show()
