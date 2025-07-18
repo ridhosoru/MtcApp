@@ -42,8 +42,8 @@ class takePartC:
         location = self.takePart.loccombobox.currentText()
         machine = self.takePart.machinecombobox.currentText()
         date = datetime.now().strftime("%d-%m-%Y")
-        storelistmodel = store.storeList(self,id,name,typepart,codepart,qty2,user,location,machine,date)
-        takepartmodel = store.takepart(self,id,name,typepart,codepart,qtot)
+        storelistmodel = store.storeList(self,id,name,typepart,codepart,qty2,date,user,location,machine)
+        takepartmodel = store.takepart(self,id,name,codepart,qtot)
         if takepartmodel :
             if storelistmodel:
                 print("success")
@@ -59,8 +59,8 @@ class takePartC:
                 return data.get("id")
     
     def getuser(self):
-        if os.path.exists("session.json"):
-            with open("session.json", "r") as f:
+        if os.path.exists("user.json"):
+            with open("user.json", "r") as f:
                 data = json.load(f)
                 return data.get("username")
             
