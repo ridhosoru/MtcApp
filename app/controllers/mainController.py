@@ -223,7 +223,10 @@ class mainWinC:
     
     def takeProduct(self,item):
         stock = item['stockpart']
-        print(stock)
+        namepart = item['namepart']
+        codepart = item['codepart']
+        typepart = item['typepart']
+        self.appcontextw.openTakePart(namepart,stock,codepart,typepart)
         
 
     

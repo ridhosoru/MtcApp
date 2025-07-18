@@ -393,3 +393,37 @@ class store :
                     message = "error"
         except Exception as e:
             print(e)
+    
+    def storeList(self,id,name,typepart,codepart,qty2,location,machine,user,date):
+        url = "http://127.0.0.1:8000/takestorelist"
+        payload = { "id":id,"namepart":name,"codepart":codepart,"typepart":typepart,"prodtake":qty2,"date":date,"nameuser":user,"location":location,"machine":machine}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                data=response.json()
+                return data
+            else:
+                if response.status_code == 409:
+                    message = "error"
+                    return False,message
+                else :
+                    message = "error"
+        except Exception as e:
+            print(e)
+
+    def takepart(self,id,name,typepart,codepart,qtot):
+        url = "http://127.0.0.1:8000/takestock"
+        payload = { "id":id,"namepart":name,"codepart":codepart,"typepart":typepart,"prodtake":qtot}
+        response = requests.post(url, json=payload)
+        try :
+            if response.status_code == 200 :
+                data=response.json()
+                return data
+            else:
+                if response.status_code == 409:
+                    message = "error"
+                    return False,message
+                else :
+                    message = "error"
+        except Exception as e:
+            print(e)

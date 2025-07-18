@@ -1,7 +1,7 @@
 import sys
 import os
 from PyQt6.QtWidgets import QApplication
-from views.view import loginView,registerWindow,mainView,callWindowView,responView,closeresponView,startedView,NoteWindow,addStoreWindow
+from views.view import loginView,registerWindow,mainView,callWindowView,responView,closeresponView,startedView,NoteWindow,addStoreWindow,conTakePart
 from controllers.mainController import mainWinC
 from controllers.loginController import logincontroller
 from controllers.registerWindowController import registerwindowcontroller
@@ -11,6 +11,7 @@ from controllers.CloseRcontroller import closeRcontroller
 from controllers.startedController import startedC
 from controllers.noteController import noteCon
 from controllers.addStoreController import addStoreConn
+from controllers.takePartCon import takePartC
 
 class appcontext:
     def __init__(self):
@@ -56,10 +57,15 @@ class appcontext:
     
     def openAddStore(self):
         adstore = addStoreWindow()
-        print("store calling")
         self.controller=addStoreConn(adstore,self)
         self.adstore=adstore
         self.adstore.show()
+    
+    def openTakePart(self,namepart,stock,codepart,typepart):
+        takePart = conTakePart()
+        self.controller=takePartC(takePart,namepart,stock,codepart,typepart,self)
+        self.takePart=takePart
+        self.takePart.show()
     
     def callWindow(self):
         if self.callV is None or not self.callV.isVisible():
