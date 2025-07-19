@@ -219,7 +219,11 @@ class mainWinC:
         self.mainView.storeScrollArea.setWidget(container_widget)
 
     def updateStock(self,item):
-        print("updateStock")
+        stock = item['stockpart']
+        namepart = item['namepart']
+        codepart = item['codepart']
+        typepart = item['typepart']
+        self.appcontextw.openaddStock(namepart,stock,codepart,typepart)
     
     def takeProduct(self,item):
         stock = item['stockpart']
