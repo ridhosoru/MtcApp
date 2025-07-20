@@ -163,9 +163,7 @@ class mainWinC:
     def getStorePart(self):
         id = self.getID()
         getmodel = store.getStore(self,id)
-        print(id)
         if getmodel:
-            print(getmodel)
             self.displaybox(getmodel)
     
     def displaybox(self,getmodel):
@@ -275,7 +273,6 @@ class mainWinC:
             self.array_item.sort(key=lambda row: status_order.index(row[0]) if row[0] in status_order else len(status_order))
             # tabletaskupdate = MainModel.tableTaskM(self)
             if tabletaskupdate :
-                print(self.array_item)
                 self.mainView.tableWidget.setRowCount(len(self.array_item))
                 for row_idx, row in enumerate(self.array_item):
                     for col_idx, value in enumerate(row):
@@ -301,6 +298,7 @@ class mainWinC:
         self.timerT.timeout.connect(self.tabletask)
         self.timerT.timeout.connect(self.getStatusR)
         self.timerT.timeout.connect(self.allTask)
+        self.timerT.timeout.connect(self.store)
         # self.timerT.timeout.connect(self.mtcPerfomance)
         self.timerT.start(5000)
 

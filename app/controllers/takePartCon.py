@@ -49,6 +49,7 @@ class takePartC:
             if storelistmodel:
                 print("success")
                 self.takePart.close()
+                
     
     def closetakepart(self):
         self.takePart.close()
