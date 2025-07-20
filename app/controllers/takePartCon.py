@@ -41,8 +41,9 @@ class takePartC:
         user = self.getuser()
         location = self.takePart.loccombobox.currentText()
         machine = self.takePart.machinecombobox.currentText()
+        status = "take"
         date = datetime.now().strftime("%d-%m-%Y")
-        storelistmodel = store.storeList(self,id,name,typepart,codepart,qty2,date,user,location,machine)
+        storelistmodel = store.storeList(self,id,name,typepart,codepart,qty2,date,user,location,machine,status)
         takepartmodel = store.takepart(self,id,name,codepart,qtot)
         if takepartmodel :
             if storelistmodel:

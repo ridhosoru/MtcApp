@@ -394,9 +394,9 @@ class store :
         except Exception as e:
             print(e)
     
-    def storeList(self,id,name,typepart,codepart,qty2,date,user,location,machine,):
+    def storeList(self,id,name,typepart,codepart,qty2,date,user,location,machine,status):
         url = "http://127.0.0.1:8000/takestorelist"
-        payload = { "id":id,"namepart":name,"codepart":codepart,"typepart":typepart,"stocktake":qty2,"date":date,"nameuser":user,"location":location,"machine":machine}
+        payload = { "id":id,"namepart":name,"codepart":codepart,"typepart":typepart,"stocktake":qty2,"date":date,"nameuser":user,"location":location,"machine":machine, "status":status}
         response = requests.post(url, json=payload)
         try :
             if response.status_code == 200 :
