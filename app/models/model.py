@@ -427,3 +427,16 @@ class store :
                     message = "error"
         except Exception as e:
             print(e)
+
+    def getAllStoreAct(self,id):
+        try:
+            payload={
+                "id" : id,
+            }
+            url= "http://127.0.0.1:8000/getStoreList"
+            response = requests.post(url,json=payload)
+            if response.status_code == 200 :
+                result= response.json()
+                return result
+        except Exception as e :
+            print(e)

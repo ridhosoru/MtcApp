@@ -211,7 +211,7 @@
        </iconset>
       </property>
      </widget>
-     <widget class="QPushButton" name="settingBtn">
+     <widget class="QPushButton" name="storeActbtn">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -226,7 +226,7 @@
        </font>
       </property>
       <property name="text">
-       <string>+</string>
+       <string/>
       </property>
       <property name="icon">
        <iconset>
@@ -1186,6 +1186,105 @@ border-radius :10px;
         <property name="text">
          <string>Add</string>
         </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_5">
+      <widget class="QFrame" name="frame_13">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>10</y>
+         <width>841</width>
+         <height>491</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QFrame#frame_13 {
+	background-color: #40916c;
+	border-radius :10px;
+}</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>10</y>
+          <width>251</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>25</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">color: rgb(255, 255, 255);</string>
+        </property>
+        <property name="text">
+         <string>Store Activity</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="tableWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>60</y>
+          <width>801</width>
+          <height>421</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string>Name Part</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Code Part</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Type Part</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Stock</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Date</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Name User</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Location</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Machine</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Status</string>
+         </property>
+        </column>
        </widget>
       </widget>
      </widget>

@@ -4,10 +4,14 @@ from PyQt6.QtWidgets import QMessageBox,QLabel, QVBoxLayout, QPushButton, QWidge
 from PyQt6.QtCore import Qt,QPoint, QTimer
 from PyQt6.QtGui import QPixmap
 from datetime import datetime
+from PyQt6.QtGui import QColor
+from PyQt6.QtWidgets import QTableWidgetItem
 from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 import numpy as np
 import os,json
 from functools import partial
+
+
 class mainWinC:
     def __init__(self,mainView,appcontext):
         self.mainView = mainView
@@ -129,6 +133,8 @@ class mainWinC:
         self.mainView.regProdBtn.clicked.connect(self.regProd)
         self.mainView.storeBtn.clicked.connect(self.store)
         self.mainView.addstorebtn.clicked.connect(self.addstore)
+        self.mainView.storeActbtn.clicked.connect(self.storeAct)
+        
 
     
     def home(self):
@@ -137,6 +143,7 @@ class mainWinC:
         self.mainView.alltaskButton.setEnabled(True)
         self.mainView.regProdBtn.setEnabled(True)
         self.mainView.storeBtn.setEnabled(True)
+        self.mainView.storeActbtn.setEnabled(True)
     
     def alltask(self):
         self.mainView.stackedWidget.setCurrentIndex(1)
@@ -144,6 +151,7 @@ class mainWinC:
         self.mainView.homeButton.setEnabled(True)
         self.mainView.regProdBtn.setEnabled(True)
         self.mainView.storeBtn.setEnabled(True)
+        self.mainView.storeActbtn.setEnabled(True)
     
     def regProd(self):
         self.mainView.stackedWidget.setCurrentIndex(2)
@@ -151,6 +159,7 @@ class mainWinC:
         self.mainView.alltaskButton.setEnabled(True)
         self.mainView.homeButton.setEnabled(True)
         self.mainView.storeBtn.setEnabled(True)
+        self.mainView.storeActbtn.setEnabled(True)
 
     def store(self):
         self.mainView.stackedWidget.setCurrentIndex(3)
@@ -159,6 +168,47 @@ class mainWinC:
         self.mainView.alltaskButton.setEnabled(True)
         self.mainView.homeButton.setEnabled(True)
         self.mainView.storeBtn.setEnabled(False)
+        self.mainView.storeActbtn.setEnabled(True)
+    
+    def storeAct(self):
+        self.mainView.stackedWidget.setCurrentIndex(4)
+        self.getStoreActivity()
+        self.mainView.regProdBtn.setEnabled(True)
+        self.mainView.alltaskButton.setEnabled(True)
+        self.mainView.homeButton.setEnabled(True)
+        self.mainView.storeBtn.setEnabled(True)
+        self.mainView.storeActbtn.setEnabled(False)
+    
+    def getStoreActivity(self):
+        self.mainView.tableWidget_3.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
+        self.mainView.tableWidget_3.setSelectionMode(QTableWidget.SelectionMode.NoSelection)
+        self.mainView.tableWidget_3.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        id = self.getID()
+        try:
+            getallstore = store.getAllStoreAct(self,id)
+            fields = ["namepart", "codepart", "typepart", "prodtake", "date", "nameuser", "location", "machine", "status"]
+            getallstore_data = [[item.get(field, "") for field in fields] for item in getallstore]
+            
+            if getallstore :
+                self.mainView.tableWidget_3.setColumnCount(len(fields))
+                self.mainView.tableWidget_3.setRowCount(len(getallstore_data))
+                for row_idx, row in enumerate(getallstore_data):
+                    status_value = row[fields.index("status")].lower().strip()
+                    if status_value == "update":
+                        bg_color = QColor(144, 238, 144)  # light green
+                    elif status_value == "take":
+                        bg_color = QColor(240, 128, 128)  # light coral
+                    else:
+                        bg_color = QColor(255, 255, 255)  # putih/default
+                    for col_idx, value in enumerate(row):
+                        item_widget = QTableWidgetItem(str(value))
+                        item_widget.setBackground(bg_color)
+                        self.mainView.tableWidget_3.setItem(row_idx, col_idx, item_widget)
+            for i in range(7, 10):
+                self.mainView.tableWidget_3.setColumnWidth(i, 250)
+
+        except Exception as e:
+            getallstore=[]
     
     def getStorePart(self):
         id = self.getID()
@@ -298,7 +348,7 @@ class mainWinC:
         self.timerT.timeout.connect(self.tabletask)
         self.timerT.timeout.connect(self.getStatusR)
         self.timerT.timeout.connect(self.allTask)
-        self.timerT.timeout.connect(self.store)
+        self.timerT.timeout.connect(self.getStorePart)
         # self.timerT.timeout.connect(self.mtcPerfomance)
         self.timerT.start(5000)
 

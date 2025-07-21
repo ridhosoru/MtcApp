@@ -47,7 +47,6 @@ class takePartC:
         takepartmodel = store.takepart(self,id,name,codepart,qtot)
         if takepartmodel :
             if storelistmodel:
-                print("success")
                 self.takePart.close()
                 
     

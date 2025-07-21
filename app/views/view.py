@@ -82,6 +82,8 @@ class mainView(QtWidgets.QMainWindow):
         self.regProdBtn.setIconSize(QSize(32, 32))
         self.storeBtn.setIcon(QIcon("icon/store.png"))
         self.storeBtn.setIconSize(QSize(32, 32))
+        self.storeActbtn.setIcon(QIcon("icon/storeactivity.png"))
+        self.storeActbtn.setIconSize(QSize(32, 32))
         
         
     
