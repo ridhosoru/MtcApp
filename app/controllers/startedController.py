@@ -49,11 +49,9 @@ class startedC :
         try:
             self.startedView.verifButton.setEnabled(False)
             self.verification_code = startedC.generate_code(self)
-            print(self.verification_code)
+            
             receiver_email = self.startedView.emailRLine.text()
-            print(receiver_email)
-            print(self.email)
-            print(self.password)
+            
             message = EmailMessage()
             message["Subject"] = "Your Verification Code"
             message["From"] = self.email
@@ -130,7 +128,7 @@ class startedC :
                     self.startedView.close()
                     
                 else :
-                    print("error")
+                    
                     message = str(self.loginM[0])
                     QMessageBox.critical(self.startedView, "Gagal", message)
                 # if isinstance(self.loginM, tuple) and self.loginM[0]:
@@ -141,7 +139,7 @@ class startedC :
                 #     QMessageBox.information(self.AppW,"success","loginSuccess")
                 #     self.clearLineR()
                 #     # self.saveLogInfo(username)
-                #     print(self.loginM)
+                #     
             except Exception as e :
                     QMessageBox.warning(self.startedView,"Fail","Error Login")
     

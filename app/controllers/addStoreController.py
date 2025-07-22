@@ -10,7 +10,7 @@ class addStoreConn:
         self.adstore = adstore
         self.appcontextw = appcontext
         self.storecontroller()
-        print("debug init success")
+        
         
 
     def storecontroller(self):
@@ -54,7 +54,7 @@ class addStoreConn:
         id = self.getID()
         self.saveimg(codePart)
         imgPath = self.folderImg+"/"+codePart+".jpg"
-        print(imgPath)
+        
         sendAdstore = store.addstore(self,id,namePart,codePart,typePart,stockPart,imgPath)
         if sendAdstore :
             self.adstore.namePartLine.setText("")

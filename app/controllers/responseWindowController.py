@@ -52,7 +52,7 @@ class responseWindowController:
             self.array_respon = []
             return self.array_respon
         name_list = [item['status'] for item in getData]
-        print(name_list)
+        
         if 'Calling' in name_list:
             self.array_respon = [list(item.values())[1:] for item in getData]
         else:

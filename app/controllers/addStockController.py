@@ -43,7 +43,7 @@ class addStockC:
         takepartmodel = store.takepart(self,id,name,codepart,qtot)
         if takepartmodel :
             if storelistmodel:
-                print("success")
+                
                 self.adstock.close()
                 
     

@@ -59,7 +59,7 @@ class closeRcontroller:
             self.array_respon = []
             return self.array_respon
         name_list = [item['status'] for item in getData]
-        print(name_list)
+        
         if 'waiting' in name_list:
             self.array_respon = [list(item.values())[1:] for item in getData]
         else:
@@ -68,7 +68,7 @@ class closeRcontroller:
     
     def updateTableC(self):
         updateTable = self.getData()
-        print(updateTable)
+        
         if updateTable:
             self.closeV.tableWidget.setRowCount(len(updateTable))
             for row_idx, row in enumerate(updateTable):
