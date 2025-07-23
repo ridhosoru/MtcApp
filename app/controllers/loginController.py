@@ -1,10 +1,5 @@
-from views.view import loginView
-from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel
+from models.model import loginmodel
 from PyQt6.QtWidgets import QMessageBox
-from PyQt6.QtCore import Qt,QPoint, QTimer
-from datetime import datetime
-from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
-import numpy as np
 import os
 import  json
 
