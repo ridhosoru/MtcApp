@@ -137,6 +137,22 @@ font-weight: bold;</string>
         <height>41</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+QPushButton::Hover{
+	background-color: rgb(226, 226, 226);
+}
+
+QPushButton:pressed {
+    
+	background-color: rgb(198, 198, 198);
+}
+</string>
+      </property>
       <property name="text">
        <string>Login</string>
       </property>
@@ -162,6 +178,22 @@ font-weight: bold;</string>
         <width>51</width>
         <height>23</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+QPushButton::Hover{
+	background-color: rgb(226, 226, 226);
+}
+
+QPushButton:pressed {
+    
+	background-color: rgb(198, 198, 198);
+}
+</string>
       </property>
       <property name="text">
        <string>Verif</string>
@@ -390,6 +422,22 @@ font-weight: bold;</string>
         <width>91</width>
         <height>41</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+QPushButton::Hover{
+	background-color: rgb(226, 226, 226);
+}
+
+QPushButton:pressed {
+    
+	background-color: rgb(198, 198, 198);
+}
+</string>
       </property>
       <property name="text">
        <string>Register</string>

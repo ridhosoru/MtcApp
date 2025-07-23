@@ -1,11 +1,10 @@
 import random
 from dotenv import load_dotenv
-import os
 import json
 from email.message import EmailMessage
 import ssl
 import smtplib
-from PyQt6.QtCore import QTimer,Qt
+from PyQt6.QtCore import QTimer
 from models.model import registerSModel, LoginSModel
 from PyQt6.QtWidgets import QMessageBox
 
@@ -14,7 +13,6 @@ class startedC :
     def __init__(self,appcontext,startedV):
         self.startedView=startedV
         self.appcontexttw = appcontext
-        
         self.startedContr()
     
     def startedContr(self):
@@ -46,24 +44,28 @@ class startedC :
             QMessageBox.warning(self.startedView,"fail get adm",str(e))
     
     def verifButtonC(self):
-        try:
-            self.startedView.verifButton.setEnabled(False)
-            self.verification_code = startedC.generate_code(self)
-            
-            receiver_email = self.startedView.emailRLine.text()
-            
-            message = EmailMessage()
-            message["Subject"] = "Your Verification Code"
-            message["From"] = self.email
-            message["To"] = receiver_email
-            message.set_content(f"Your verification code is: {self.verification_code}")
-            context = ssl.create_default_context()
-            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-                server.login(self.email, self.password)
-                server.send_message(message)
-            self.timerVerif()
-        except Exception as e :
-            print(e)
+        email = self.startedView.emailRLine.text()
+        if email :
+            try:
+                self.startedView.verifButton.setEnabled(False)
+                self.verification_code = startedC.generate_code(self)
+                
+                receiver_email = self.startedView.emailRLine.text()
+                
+                message = EmailMessage()
+                message["Subject"] = "Your Verification Code"
+                message["From"] = self.email
+                message["To"] = receiver_email
+                message.set_content(f"Your verification code is: {self.verification_code}")
+                context = ssl.create_default_context()
+                with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                    server.login(self.email, self.password)
+                    server.send_message(message)
+                self.timerVerif()
+            except Exception as e :
+                print(e)
+        else :
+            QMessageBox.warning(self.startedView,"Fail","Please Input Email for Verification")
     
     def timerVerif(self):
         self.time_left = 300 
@@ -103,13 +105,17 @@ class startedC :
                     self.registerM = regmodel.registerS(username,password,email)
                     if isinstance(self.registerM, tuple) and self.registerM[0]:
                         message = str(self.registerM[1])
-                        QMessageBox.critical(self.startedView, "Gagal", message)
+                        QMessageBox.critical(self.startedView, "Fail", message)
                         self.clearLineR()
                     else:
                         QMessageBox.information(self.startedView,"success","success add user")
                         self.clearLineR()
                 except Exception as e :
-                    print(e)
+                    QMessageBox.critical(self.startedView, "Fail", "error when register")
+            else :
+                QMessageBox.warning(self.startedView,"Fail","Your Code Verification Is Wrong")
+        else :
+            QMessageBox.warning(self.startedView,"Fail","Please Input Username, Password and Code Verification")
 
     def loginAcc(self):
         username = self.startedView.usernameL.text()
@@ -126,22 +132,14 @@ class startedC :
                     QMessageBox.information(self.startedView,"success","loginSuccess")
                     self.appcontexttw.open_loginwindow()
                     self.startedView.close()
-                    
                 else :
-                    
                     message = str(self.loginM[0])
                     QMessageBox.critical(self.startedView, "Gagal", message)
-                # if isinstance(self.loginM, tuple) and self.loginM[0]:
-                #         message = str(self.loginM[1])
-                #         QMessageBox.critical(self.AppW, "Gagal", message)
-                #         self.clearLineR()
-                # else:
-                #     QMessageBox.information(self.AppW,"success","loginSuccess")
-                #     self.clearLineR()
-                #     # self.saveLogInfo(username)
-                #     
             except Exception as e :
                     QMessageBox.warning(self.startedView,"Fail","Error Login")
+        
+        else :
+            QMessageBox.warning(self.startedView,"Fail","Please Input Username and Password")
     
     def saveLogInfo(self,getid,getUsername):
         session_data = {"id":getid,"username": getUsername}
