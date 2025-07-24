@@ -1,10 +1,8 @@
-from views.view import loginView
-from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel
-from PyQt6.QtWidgets import QMessageBox
-from PyQt6.QtCore import Qt,QPoint, QTimer
+from models.model import responModel
+from PyQt6.QtCore import  QTimer
 from datetime import datetime
-from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
-import numpy as np
+from PyQt6.QtWidgets import  QTableWidgetItem
+
 import os,json
 class responseWindowController:
     def __init__(self,responView,appcontext):

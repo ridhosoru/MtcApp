@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QWidget, QPushButton, QLabel, QVBoxLayout, QFileDialog
+from PyQt6.QtWidgets import QFileDialog
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 import os,json

@@ -1,13 +1,11 @@
-from views.view import loginView
-from models.model import loginmodel,registermodel,MainModel,callWModel,responModel,closeCModel,addNote,Regprod,store
-from PyQt6.QtWidgets import QMessageBox,QLabel, QVBoxLayout, QPushButton, QWidget, QScrollArea, QFrame, QGridLayout,QHBoxLayout
-from PyQt6.QtCore import Qt,QPoint, QTimer
+from models.model import MainModel,addNote,Regprod,store
+from PyQt6.QtWidgets import QMessageBox,QLabel, QVBoxLayout, QPushButton, QWidget,  QFrame, QGridLayout,QHBoxLayout
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QPixmap
 from datetime import datetime
 from PyQt6.QtGui import QColor
 from PyQt6.QtWidgets import QTableWidgetItem
 from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
-import numpy as np
 import os,json
 from functools import partial
 
