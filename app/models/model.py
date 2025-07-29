@@ -1,14 +1,25 @@
 import requests
 
-
+class getConn :
+    def get_conn():
+        url ="http://103.179.56.80/"
+        try :
+            response = requests.get(url)
+            if response.status_code == 200 :
+                return response.json()
+            else :
+                return None
+        except Exception as e :
+            print(e)
 
 
 class registerSModel:
     def registerS(self,username,password,email):
-        url ="http://127.0.0.1:8000/registerAcc"
+        url ="http://103.179.56.80/registerAcc"
         payload = {"username":username, "password":password,"email":email}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 return {"username":username, "password":password,"email":email} 
             else:
@@ -24,7 +35,7 @@ class registerSModel:
             print(e)
     
     def adminacc(self):
-        url = "http://127.0.0.1:8000/getCred"
+        url = "http://103.179.56.80/getCred"
         
         try:
             response = requests.get(url)
@@ -47,10 +58,11 @@ class registerSModel:
 
 class LoginSModel:
     def loginS(self,username,password):
-        url ="http://127.0.0.1:8000/loginAcc"
+        url ="http://103.179.56.80/loginAcc"
         payload = {"username":username, "password":password}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 return response.json()
             elif response.status_code == 500:
@@ -63,10 +75,11 @@ class LoginSModel:
 
 class loginmodel:
     def login(self,username,password,id):
-        url ="http://127.0.0.1:8000/loginUser"
+        url ="http://103.179.56.80/loginUser"
         payload = {"username":username, "password":password, "id":id}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 return response.json()
             elif response.status_code == 409:
@@ -79,7 +92,7 @@ class loginmodel:
 class registermodel:
     def register(self,username,password,workNumber,id):
         try :
-            url ="http://127.0.0.1:8000//RegisterUser"
+            url ="http://103.179.56.80//RegisterUser"
             payload = {"username": username, "password": password, "workNumber":workNumber, "id":id}
             response = requests.post(url, json=payload)
             if response.status_code == 200:
@@ -92,7 +105,7 @@ class registermodel:
 class MainModel:
     def tableTaskM(self):
         try:
-            url ="http://127.0.0.1:8000/getTask"
+            url ="http://103.179.56.80/getTask"
             response = requests.get(url)
             if response.status_code == 200 :
                 data = response.json()
@@ -101,11 +114,14 @@ class MainModel:
             print(e)
     
     def getStatusRespon(self):
-        url= "http://127.0.0.1:8000/getstatusR"
-        response = requests.get(url)
-        if response.status_code == 200:
-            result = response.json()
-            return result
+        url= "http://103.179.56.80/getstatusR"
+        try :
+            response = requests.get(url)
+            if response.status_code == 200:
+                result = response.json()
+                return result
+        except Exception as e :
+            return None
         
     def getMaintenanceP(self,dateSt,id):
         try:
@@ -113,7 +129,7 @@ class MainModel:
                 "id" : id,
                 "datestart": dateSt
             }
-            url= "http://127.0.0.1:8000/getTask"
+            url= "http://103.179.56.80/getTask"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 result= response.json()
@@ -126,7 +142,7 @@ class MainModel:
             payload={
                 "id" : id,
             }
-            url= "http://127.0.0.1:8000/getAllTask"
+            url= "http://103.179.56.80/getAllTask"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 result= response.json()
@@ -140,7 +156,7 @@ class callWModel:
             payload={
                 "id": id
             }
-            url ="http://127.0.0.1:8000/lineName"
+            url ="http://103.179.56.80/lineName"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 data = response.json()
@@ -153,7 +169,7 @@ class callWModel:
             payload={
                 "id": id
             }
-            url ="http://127.0.0.1:8000/machineName"
+            url ="http://103.179.56.80/machineName"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 data = response.json()
@@ -166,7 +182,7 @@ class callWModel:
             payload={
                 "id": id
             }
-            url ="http://127.0.0.1:8000/problemName"
+            url ="http://103.179.56.80/problemName"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 data = response.json()
@@ -176,7 +192,7 @@ class callWModel:
     
     def callmodel(self,id,locc,machinec,probc,commentText,dateSt,timeSt,timeRs,status,solve,problemafterc,timefinish,namemtc):
         try:
-            url = "http://127.0.0.1:8000/TaskInput"
+            url = "http://103.179.56.80/TaskInput"
             payload = { "id"    : id,
                         "status": status, 
                         "datestart": dateSt,
@@ -206,7 +222,7 @@ class responModel:
                 "datestart": dateSt,
                 "status":'Calling'
             }
-            url= "http://127.0.0.1:8000/getRespon"
+            url= "http://103.179.56.80/getRespon"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 result= response.json()
@@ -216,7 +232,7 @@ class responModel:
     
     def responseCModel(self,rowdata,id):
         try :
-            url = "http://127.0.0.1:8000/TaskUpdate"
+            url = "http://103.179.56.80/TaskUpdate"
             payload = {
                         "id":id,
                         "status": rowdata['status'],
@@ -242,7 +258,7 @@ class closeCModel:
                 "datestart": dateSt,
                 "status":'waiting'
             }
-            url= "http://127.0.0.1:8000/getRespon"
+            url= "http://103.179.56.80/getRespon"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 result= response.json()
@@ -252,7 +268,7 @@ class closeCModel:
     
     def closeTaskModel(self,rowdata,id):
         try :
-            url = "http://127.0.0.1:8000/TaskFinish"
+            url = "http://103.179.56.80/TaskFinish"
             payload = {"id":id,
                         "status": rowdata['status'],
                         "datestart": rowdata['dateSt'],
@@ -274,10 +290,11 @@ class closeCModel:
 
 class addNote:
     def sendNote(self,username,id,subject,notetext,datenote):
-        url ="http://127.0.0.1:8000/addnote"
+        url ="http://103.179.56.80/addnote"
         payload = {"username":username, "id":id,"subject":subject,"notetext":notetext,"datenote":datenote}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 data=response.json()
                 return data
@@ -291,10 +308,11 @@ class addNote:
             print(e)
     
     def getnote(self,id,username):
-        url = "http://127.0.0.1:8000/getNote"
+        url = "http://103.179.56.80/getNote"
         payload = {"id":id, "username":username}
-        response = requests.post(url,json=payload)
+        
         try :
+            response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 data=response.json()
                 return data
@@ -309,10 +327,11 @@ class addNote:
 
 class Regprod :
     def machineInp(self,id,name):
-        url ="http://127.0.0.1:8000/regMachine"
+        url ="http://103.179.56.80/regMachine"
         payload = { "id":id,"name":name,}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 data=response.json()
                 return data
@@ -326,10 +345,11 @@ class Regprod :
             print(e)
     
     def LocInp(self,id,name):
-        url ="http://127.0.0.1:8000/regLoc"
+        url ="http://103.179.56.80/regLoc"
         payload = { "id":id,"name":name,}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 data=response.json()
                 return data
@@ -343,10 +363,11 @@ class Regprod :
             print(e)
     
     def probInp(self,id,name):
-        url ="http://127.0.0.1:8000/regProb"
+        url ="http://103.179.56.80/regProb"
         payload = { "id":id,"name":name,}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 data=response.json()
                 return data
@@ -361,10 +382,11 @@ class Regprod :
 
 class store :
     def addstore(self,id,namePart,codePart,typePart,stockPart,imgPath):
-        url ="http://127.0.0.1:8000/addstore"
+        url ="http://103.179.56.80/addstore"
         payload = { "id":id,"namepart":namePart,"codepart":codePart,"typepart":typePart, "stockpart":stockPart, "imgpath":imgPath}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 data=response.json()
                 return data
@@ -378,10 +400,11 @@ class store :
             print(e)
     
     def getStore(self,id):
-        url = "http://127.0.0.1:8000/getStorePart"
+        url = "http://103.179.56.80/getStorePart"
         payload = { "id":id}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 data=response.json()
                 return data
@@ -395,10 +418,11 @@ class store :
             print(e)
     
     def storeList(self,id,name,typepart,codepart,qty2,date,user,location,machine,status):
-        url = "http://127.0.0.1:8000/takestorelist"
+        url = "http://103.179.56.80/takestorelist"
         payload = { "id":id,"namepart":name,"codepart":codepart,"typepart":typepart,"stocktake":qty2,"date":date,"nameuser":user,"location":location,"machine":machine, "status":status}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 data=response.json()
                 return data
@@ -412,10 +436,11 @@ class store :
             print(e)
 
     def takepart(self,id,name,codepart,qtot):
-        url = "http://127.0.0.1:8000/takestock"
+        url = "http://103.179.56.80/takestock"
         payload = { "id":id,"namepart":name,"codepart":codepart,"stockpart":qtot}
-        response = requests.post(url, json=payload)
+        
         try :
+            response = requests.post(url, json=payload)
             if response.status_code == 200 :
                 data=response.json()
                 return data
@@ -433,7 +458,7 @@ class store :
             payload={
                 "id" : id,
             }
-            url= "http://127.0.0.1:8000/getStoreList"
+            url= "http://103.179.56.80/getStoreList"
             response = requests.post(url,json=payload)
             if response.status_code == 200 :
                 result= response.json()

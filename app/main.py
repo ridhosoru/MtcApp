@@ -14,6 +14,9 @@ from controllers.noteController import noteCon
 from controllers.addStoreController import addStoreConn
 from controllers.takePartCon import takePartC
 from controllers.addStockController import addStockC
+from models.model import getConn
+from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtCore import  QTimer
 
 class appcontext:
     def __init__(self):
@@ -103,6 +106,8 @@ class appcontext:
             self.responseV.raise_()
 
     def run(self):
+        self.handle_koneksi(blocking=True)
+        self.setupAutoRefresh()  
         if os.path.exists("session.json"):
             if os.path.exists("user.json"):
                 self.openmainWindow()
@@ -111,6 +116,52 @@ class appcontext:
         else:
             self.openStarted()
         sys.exit(self.app.exec())
+    
+    def try_conn(self):
+        try:
+            return getConn.get_conn()
+        except Exception as e:
+            return None
+    
+    def handle_koneksi(self,blocking=True):
+        if self.try_conn():
+            return True
+        if blocking:
+        # Loop sampai berhasil atau user keluar
+            while True:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Icon.Critical)
+                msg.setWindowTitle("Koneksi Gagal")
+                msg.setText("Tidak dapat terhubung ke server.\nPastikan jaringan aktif.")
+                retry_button = msg.addButton("Coba Lagi", QMessageBox.ButtonRole.AcceptRole)
+                exit_button = msg.addButton("Keluar", QMessageBox.ButtonRole.RejectRole)
+                msg.exec()
+
+                if msg.clickedButton() == exit_button:
+                    sys.exit()
+                if self.try_conn():
+                    return True
+        else:
+            # Untuk mode cek berkala (sekali saja)
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Icon.Warning)
+            msg.setWindowTitle("Koneksi Terputus")
+            msg.setText("Koneksi ke server hilang!\nCoba ulang atau keluar aplikasi.")
+            retry_button = msg.addButton("Coba Lagi", QMessageBox.ButtonRole.AcceptRole)
+            exit_button = msg.addButton("Keluar", QMessageBox.ButtonRole.RejectRole)
+            msg.exec()
+
+            if msg.clickedButton() == exit_button:
+                sys.exit()
+            else:
+                return self.handle_koneksi(blocking=True) # kalau user pilih coba lagi, pakai mode blocking
+
+        return True
+    
+    def setupAutoRefresh(self):
+        self.timerT = QTimer()
+        self.timerT.timeout.connect(lambda: self.handle_koneksi(blocking=False))
+        self.timerT.start(5000)
 
 if __name__ == "__main__":
     context = appcontext()

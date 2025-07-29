@@ -10,8 +10,6 @@ class addStoreConn:
         self.adstore = adstore
         self.appcontextw = appcontext
         self.storecontroller()
-        
-        
 
     def storecontroller(self):
         self.storeBtnController()
