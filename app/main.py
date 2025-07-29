@@ -131,10 +131,10 @@ class appcontext:
             while True:
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Icon.Critical)
-                msg.setWindowTitle("Koneksi Gagal")
-                msg.setText("Tidak dapat terhubung ke server.\nPastikan jaringan aktif.")
-                retry_button = msg.addButton("Coba Lagi", QMessageBox.ButtonRole.AcceptRole)
-                exit_button = msg.addButton("Keluar", QMessageBox.ButtonRole.RejectRole)
+                msg.setWindowTitle("Connection Fail")
+                msg.setText("Fail Connect to Server.\nMake sure it is connected to the network.")
+                retry_button = msg.addButton("Try", QMessageBox.ButtonRole.AcceptRole)
+                exit_button = msg.addButton("Close", QMessageBox.ButtonRole.RejectRole)
                 msg.exec()
 
                 if msg.clickedButton() == exit_button:
@@ -145,10 +145,10 @@ class appcontext:
             # Untuk mode cek berkala (sekali saja)
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Icon.Warning)
-            msg.setWindowTitle("Koneksi Terputus")
-            msg.setText("Koneksi ke server hilang!\nCoba ulang atau keluar aplikasi.")
-            retry_button = msg.addButton("Coba Lagi", QMessageBox.ButtonRole.AcceptRole)
-            exit_button = msg.addButton("Keluar", QMessageBox.ButtonRole.RejectRole)
+            msg.setWindowTitle("Connection Fail")
+            msg.setText("Lost Connection\nTry connect or Close Application.")
+            retry_button = msg.addButton("Try", QMessageBox.ButtonRole.AcceptRole)
+            exit_button = msg.addButton("Close", QMessageBox.ButtonRole.RejectRole)
             msg.exec()
 
             if msg.clickedButton() == exit_button:
