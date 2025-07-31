@@ -1,8 +1,16 @@
 import sys
 import os
-from PyQt6.QtWidgets import QApplication
-from views.view import loginView,registerWindow,mainView,callWindowView,responView,closeresponView,startedView,NoteWindow,addStoreWindow,conTakePart
-from views.view import addStock
+from PyQt6.QtWidgets import QApplication, QMessageBox
+from PyQt6.QtCore import QTimer
+
+
+from views.view import (
+    loginView, registerWindow, mainView, callWindowView, responView,
+    closeresponView, startedView, NoteWindow, addStoreWindow,
+    conTakePart, addStock
+)
+
+
 from controllers.mainController import mainWinC
 from controllers.loginController import logincontroller
 from controllers.registerWindowController import registerwindowcontroller
@@ -14,100 +22,86 @@ from controllers.noteController import noteCon
 from controllers.addStoreController import addStoreConn
 from controllers.takePartCon import takePartC
 from controllers.addStockController import addStockC
+
 from models.model import getConn
-from PyQt6.QtWidgets import QMessageBox
-from PyQt6.QtCore import  QTimer
+
 
 class appcontext:
     def __init__(self):
         self.app = QApplication(sys.argv)
-        self.loginwindow = None
-        self.mainwindow = None
-        self.callV = None
-        self.responseV = None
-        self.closeV = None
 
+        
+        self.windows = {}
+        self.controllers = {}
 
+   
+    def open_window_safely(self, key, view_class, controller_class, *controller_args):
+        
+        win = self.windows.get(key)
+
+        
+        if win is not None and not win.isVisible():
+            self.windows[key] = None
+            win = None
+
+        if win is None:
+            
+            win = view_class()
+            controller = controller_class(win, *controller_args)
+
+            
+            self.windows[key] = win
+            self.controllers[key] = controller
+
+           
+            win.destroyed.connect(lambda: self.windows.update({key: None}))
+
+            win.show()
+        else:
+            win.activateWindow()
+            win.raise_()
+
+   
     def openStarted(self):
-        startedV = startedView()
-        self.started = startedV
-        self.controller = startedC(self,startedV)
-        self.started.show()
+        self.open_window_safely("started", startedView, startedC, self)
 
-    
     def open_loginwindow(self):
-        loginv = loginView()
-        self.controller = logincontroller(loginv,self)
-        self.loginwindow = loginv
-        self.loginwindow.show()
-
+        self.open_window_safely("login", loginView, logincontroller, self)
 
     def openregisterWindow(self):
-        registerw = registerWindow()
-        self.controller = registerwindowcontroller(registerw,self)
-        self.registerW =registerw
-        self.registerW.show()
-    
+        self.open_window_safely("register", registerWindow, registerwindowcontroller, self)
+
     def openmainWindow(self):
-        mainv = mainView()
-        self.controller = mainWinC(mainv,self)
-        self.mainv = mainv
-        self.mainv.show()
-    
+        self.open_window_safely("main", mainView, mainWinC, self)
+
     def openNote(self):
-        notev = NoteWindow()
-        self.controller=noteCon(notev,self)
-        self.notev=notev
-        self.notev.show()
-    
+        self.open_window_safely("note", NoteWindow, noteCon, self)
+
     def openAddStore(self):
-        adstore = addStoreWindow()
-        self.controller=addStoreConn(adstore,self)
-        self.adstore=adstore
-        self.adstore.show()
-    
-    def openTakePart(self,namepart,stock,codepart,typepart):
-        takePart = conTakePart()
-        self.controller=takePartC(takePart,namepart,stock,codepart,typepart,self)
-        self.takePart=takePart
-        self.takePart.show()
-    
-    def openaddStock(self,namepart,stock,codepart,typepart):
-        adstock = addStock()
-        self.controller=addStockC(adstock,self,namepart,stock,codepart,typepart)
-        self.adstore=adstock
-        self.adstore.show()
-    
+        self.open_window_safely("addStore", addStoreWindow, addStoreConn, self)
+
+    def openTakePart(self, namepart, stock, codepart, typepart):
+        self.open_window_safely("takePart", conTakePart, takePartC,
+                                namepart, stock, codepart, typepart, self)
+
+    def openaddStock(self, namepart, stock, codepart, typepart):
+        self.open_window_safely("addStock", addStock, addStockC,
+                                self, namepart, stock, codepart, typepart)
+
     def callWindow(self):
-        if self.callV is None or not self.callV.isVisible():
-            self.callV = callWindowView()
-            self.controller = callWindowController(self.callV,self)
-            self.callV.show()
-        else :
-            self.callV.activateWindow()
-            self.callV.raise_()
+        self.open_window_safely("call", callWindowView, callWindowController, self)
 
     def responseWindow(self):
-        if self.responseV is None or not self.responseV.isVisible():
-            self.responseV = responView()
-            self.responeController = responseWindowController(self.responseV,self)
-            self.responseV.show()
-        else :
-            self.responseV.activateWindow()
-            self.responseV.raise_()
-    
-    def closeCallWindow(self):
-        if self.closeV is None or not self.closeV.isVisible():
-            self.closeV = closeresponView()
-            self.closeVController = closeRcontroller(self.closeV,self)
-            self.closeV.show()
-        else :
-            self.responseV.activateWindow()
-            self.responseV.raise_()
+        self.open_window_safely("response", responView, responseWindowController, self)
 
+    def closeCallWindow(self):
+        self.open_window_safely("closeCall", closeresponView, closeRcontroller, self)
+
+ 
     def run(self):
         self.handle_koneksi(blocking=True)
-        self.setupAutoRefresh()  
+        self.setupAutoRefresh()
+
         if os.path.exists("session.json"):
             if os.path.exists("user.json"):
                 self.openmainWindow()
@@ -115,19 +109,20 @@ class appcontext:
                 self.open_loginwindow()
         else:
             self.openStarted()
+
         sys.exit(self.app.exec())
-    
+
     def try_conn(self):
         try:
             return getConn.get_conn()
-        except Exception as e:
+        except Exception:
             return None
-    
-    def handle_koneksi(self,blocking=True):
+
+    def handle_koneksi(self, blocking=True):
         if self.try_conn():
             return True
+
         if blocking:
-        # Loop sampai berhasil atau user keluar
             while True:
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Icon.Critical)
@@ -142,7 +137,6 @@ class appcontext:
                 if self.try_conn():
                     return True
         else:
-            # Untuk mode cek berkala (sekali saja)
             msg = QMessageBox()
             msg.setIcon(QMessageBox.Icon.Warning)
             msg.setWindowTitle("Connection Fail")
@@ -154,18 +148,16 @@ class appcontext:
             if msg.clickedButton() == exit_button:
                 sys.exit()
             else:
-                return self.handle_koneksi(blocking=True) # kalau user pilih coba lagi, pakai mode blocking
+                return self.handle_koneksi(blocking=True)
 
         return True
-    
+
     def setupAutoRefresh(self):
         self.timerT = QTimer()
         self.timerT.timeout.connect(lambda: self.handle_koneksi(blocking=False))
         self.timerT.start(5000)
 
+
 if __name__ == "__main__":
     context = appcontext()
     context.run()
-        
-
-

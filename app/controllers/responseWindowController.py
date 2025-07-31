@@ -2,6 +2,7 @@ from models.model import responModel
 from PyQt6.QtCore import  QTimer
 from datetime import datetime
 from PyQt6.QtWidgets import  QTableWidgetItem
+from PyQt6.QtCore import QTimer, pyqtSignal, QObject
 
 import os,json
 class responseWindowController:
@@ -25,7 +26,6 @@ class responseWindowController:
         data = ['status','dateSt','timeSt','timeRs','locc','machinec','probc','commentText','problemafterc','solve','timefinish','namemtc']
         rowdata={}
         if selected_row >=0 :
-            #rowdata['status'] = 'waiting'
             for col in range(self.responView.tableWidget.columnCount()):
                 item = self.responView.tableWidget.item(selected_row, col)
                 rowdata[data[col]]=item.text()
