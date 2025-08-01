@@ -37,12 +37,15 @@ class addStoreConn:
             self.adstore.imageLbl.setPixmap(scaled_pixmap)
     
     def saveimg(self,codePart):
-        img = self.file_path
-        self.folderImg = "storeimg"
-        os.makedirs(self.folderImg, exist_ok=True)
-        file_name = codePart+".jpg"
-        destination = os.path.join(self.folderImg, file_name)
-        shutil.copy(img, destination)
+        try :
+            img = self.file_path
+            self.folderImg = "storeimg"
+            os.makedirs(self.folderImg, exist_ok=True)
+            file_name = codePart+".jpg"
+            destination = os.path.join(self.folderImg, file_name)
+            shutil.copy(img, destination)
+        except :
+            pass
     
     def addimStore(self):
         namePart= self.adstore.namePartLine.text()

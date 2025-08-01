@@ -2,8 +2,7 @@ from models.model import responModel
 from PyQt6.QtCore import  QTimer
 from datetime import datetime
 from PyQt6.QtWidgets import  QTableWidgetItem
-from PyQt6.QtCore import QTimer, pyqtSignal, QObject
-
+from PyQt6.QtCore import QTimer
 import os,json
 class responseWindowController:
     def __init__(self,responView,appcontext):
