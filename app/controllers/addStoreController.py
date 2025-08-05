@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QFileDialog
+from PyQt6.QtWidgets import QFileDialog,QMessageBox
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 import os,json
@@ -44,8 +44,11 @@ class addStoreConn:
             file_name = codePart+".jpg"
             destination = os.path.join(self.folderImg, file_name)
             shutil.copy(img, destination)
+            return True
         except :
-            pass
+            QMessageBox.warning(self.adstore,"fail","please import image")
+            return False
+            
     
     def addimStore(self):
         namePart= self.adstore.namePartLine.text()
@@ -53,16 +56,21 @@ class addStoreConn:
         typePart = self.adstore.typeLine.text()
         stockPart = self.adstore.stockLine.text()
         id = self.getID()
-        self.saveimg(codePart)
-        imgPath = self.folderImg+"/"+codePart+".jpg"
-        
-        sendAdstore = store.addstore(self,id,namePart,codePart,typePart,stockPart,imgPath)
-        if sendAdstore :
-            self.adstore.namePartLine.setText("")
-            self.adstore.codeLine.setText("")
-            self.adstore.typeLine.setText("")
-            self.adstore.stockLine.setText("")
-            self.adstore.imageLbl.clear()
+
+        if not self.saveimg(codePart):
+            return
+        imgPath = os.path.join("storeimg", codePart + ".jpg")
+
+        try:
+            sendAdstore = store.addstore(self,id,namePart,codePart,typePart,stockPart,imgPath)
+            if sendAdstore :
+                self.adstore.namePartLine.setText("")
+                self.adstore.codeLine.setText("")
+                self.adstore.typeLine.setText("")
+                self.adstore.stockLine.setText("")
+                self.adstore.imageLbl.clear()
+        except Exception as e :
+            QMessageBox.warning(self.adstore,"fail",str(e))
 
 
     def getID(self):
