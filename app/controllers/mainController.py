@@ -57,6 +57,7 @@ class mainWinC:
         self.timerU()
         self.tabletask()
         self.mtcPerfomance()
+        self.regProdPage()
 
         self.refreshThread = AutoRefreshThread(self)
         self.refreshThread.dataUpdated.connect(self.updateFromThread)
@@ -248,6 +249,47 @@ class mainWinC:
     def regProd(self): self.mainView.stackedWidget.setCurrentIndex(2)
     def store(self): self.mainView.stackedWidget.setCurrentIndex(3)
     def storeAct(self): self.mainView.stackedWidget.setCurrentIndex(4)
+
+    def regProdPage(self):
+        self.mainView.machInBtn.clicked.connect(self.machineInput)
+        self.mainView.locInBtn.clicked.connect(self.LocInput)
+        self.mainView.probInBtn.clicked.connect(self.probInput)
+
+    def machineInput(self):
+        id = self.getID()
+        name = self.mainView.machInLine.text()
+        try :
+            inpMach = Regprod.machineInp(self,id,name)
+            if inpMach:
+                QMessageBox.information(self.mainView,"success","Success add machine name")
+                self.mainView.machInLine.clear()
+        
+        except Exception as e :
+            QMessageBox.warning(self.mainView,"fail",str(e))
+    
+    def LocInput(self):
+        id = self.getID()
+        name = self.mainView.locInLine.text()
+        try :
+            inpMach = Regprod.LocInp(self,id,name)
+            if inpMach:
+                QMessageBox.information(self.mainView,"success","Success add machine name")
+                self.mainView.locInLine.clear()
+        
+        except Exception as e :
+            QMessageBox.warning(self.mainView,"fail",str(e))
+
+    def probInput(self):
+        id = self.getID()
+        name = self.mainView.probInLine.text()
+        try :
+            inpMach = Regprod.probInp(self,id,name)
+            if inpMach:
+                QMessageBox.information(self.mainView,"success","Success add machine name")
+                self.mainView.probInLine.clear()
+        
+        except Exception as e :
+            QMessageBox.warning(self.mainView,"fail",str(e))
 
     def displaybox(self, getmodel):
         gridlay = QGridLayout()
