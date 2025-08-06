@@ -3,7 +3,7 @@ import os
 from PyQt6.QtWidgets import QApplication, QMessageBox
 from PyQt6.QtCore import QTimer
 
-
+from PyQt6.QtNetwork import QLocalServer, QLocalSocket
 from views.view import (
     loginView, registerWindow, mainView, callWindowView, responView,
     closeresponView, startedView, NoteWindow, addStoreWindow,
@@ -29,11 +29,11 @@ from models.model import getConn
 class appcontext:
     def __init__(self):
         self.app = QApplication(sys.argv)
-
-        
         self.windows = {}
         self.controllers = {}
-
+        if not self.checkDoubleApp("MaintenanceAppLock"):
+            QMessageBox.warning(None, "Warning", "Application already running.")
+            sys.exit(0)
    
     def open_window_safely(self, key, view_class, controller_class, *controller_args):
         
@@ -156,7 +156,15 @@ class appcontext:
         self.timerT = QTimer()
         self.timerT.timeout.connect(lambda: self.handle_koneksi(blocking=False))
         self.timerT.start(5000)
-
+    
+    def checkDoubleApp(self, key="MyUniqueAppKey"):
+        socket = QLocalSocket()
+        socket.connectToServer(key)
+        if socket.waitForConnected(100): 
+            return False
+        self.single_instance_server = QLocalServer()
+        self.single_instance_server.listen(key)
+        return True
 
 if __name__ == "__main__":
     context = appcontext()
