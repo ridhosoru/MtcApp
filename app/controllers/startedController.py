@@ -6,7 +6,7 @@ import ssl
 import smtplib
 from PyQt6.QtCore import QTimer
 from models.model import registerSModel, LoginSModel
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox,QLineEdit
 from pathlib import Path
 import os
 
@@ -21,7 +21,7 @@ class startedC :
         self.generate_code()
         self.buttonstartedC()
         self.getadm()
-        
+        self.password_shown = False
     
     def buttonstartedC(self):
         self.startedView.verifButton.clicked.connect(self.verifButtonC)
@@ -29,6 +29,14 @@ class startedC :
         self.startedView.closeBtn.clicked.connect(self.closeW)
         self.startedView.minBtn.clicked.connect(self.minW)
         self.startedView.loginButton.clicked.connect(self.loginAcc)
+        self.startedView.showPassBtn.clicked.connect(self.showPass)
+    
+    def showPass(self):
+        if self.password_shown:
+            self.startedView.passwordL.setEchoMode(QLineEdit.EchoMode.Password)
+        else :
+            self.startedView.passwordL.setEchoMode(QLineEdit.EchoMode.Normal)
+        self.password_shown = not self.password_shown
     
     def minW(self):
         self.startedView.showMinimized()

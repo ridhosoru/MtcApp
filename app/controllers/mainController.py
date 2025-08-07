@@ -346,7 +346,7 @@ class mainWinC:
         appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
         user_path = appdata_dir / "user.json"
         if user_path.exists():
-            os.remove("user.json")
+            os.remove(user_path)
         self.refreshThread.stop()
         self.mainView.close()
         self.appcontextw.open_loginwindow()

@@ -277,6 +277,12 @@ font-weight: bold;</string>
       <property name="styleSheet">
        <string notr="true">border-radius:5px;</string>
       </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
      </widget>
      <widget class="QLabel" name="label_8">
       <property name="geometry">
@@ -441,6 +447,35 @@ QPushButton:pressed {
       </property>
       <property name="text">
        <string>Register</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="showPassBtn">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>110</y>
+        <width>51</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+QPushButton::Hover{
+	background-color: rgb(226, 226, 226);
+}
+
+QPushButton:pressed {
+    
+	background-color: rgb(198, 198, 198);
+}
+</string>
+      </property>
+      <property name="text">
+       <string>show</string>
       </property>
      </widget>
     </widget>
