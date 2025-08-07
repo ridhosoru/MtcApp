@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import QMessageBox
 
 
 class startedC :
-    def __init__(self,appcontext,startedV):
+    def __init__(self,startedV,appcontext):
         self.startedView=startedV
         self.appcontexttw = appcontext
         self.startedContr()
