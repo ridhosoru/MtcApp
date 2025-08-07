@@ -2,6 +2,7 @@ from models.model import registermodel
 from PyQt6.QtWidgets import QMessageBox
 import json
 import os
+from pathlib import Path
 
 class registerwindowcontroller:
     def __init__(self,registerw,appcontext):
@@ -36,7 +37,9 @@ class registerwindowcontroller:
             QMessageBox.warning(self.registerw,"Fail","Fill in username or password")
     
     def getID(self):
-        if os.path.exists("session.json"):
-            with open("session.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("id")

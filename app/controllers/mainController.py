@@ -7,7 +7,7 @@ from PyQt6.QtGui import QPixmap, QColor
 from datetime import datetime
 import os, json
 from functools import partial
-
+from pathlib import Path
 from models.model import MainModel, addNote, Regprod, store
 
 class AutoRefreshThread(QThread):
@@ -343,7 +343,9 @@ class mainWinC:
     def closeCallA(self): self.appcontextw.closeCallWindow()
 
     def logout(self):
-        if os.path.exists("user.json"):
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
             os.remove("user.json")
         self.refreshThread.stop()
         self.mainView.close()
@@ -356,12 +358,16 @@ class mainWinC:
     def minM(self): self.mainView.showMinimized()
 
     def getID(self):
-        if os.path.exists("user.json"):
-            return json.load(open("user.json")).get("id")
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            return json.load(open(user_path)).get("id")
 
     def getUsername(self):
-        if os.path.exists("user.json"):
-            return json.load(open("user.json")).get("username")
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            return json.load(open(user_path)).get("username")
 
     def tabletask(self): pass  
 

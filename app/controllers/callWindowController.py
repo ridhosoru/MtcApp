@@ -1,7 +1,7 @@
 from models.model import callWModel
 from datetime import datetime
 import os,json
-
+from pathlib import Path
 
 class callWindowController:
     def __init__(self,callWindowView,appcontext):
@@ -17,8 +17,10 @@ class callWindowController:
         self.problist()
     
     def getID(self):
-        if os.path.exists("user.json"):
-            with open("user.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("id")
 

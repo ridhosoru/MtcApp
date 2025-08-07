@@ -2,6 +2,7 @@ from models.model import loginmodel
 from PyQt6.QtWidgets import QMessageBox
 import os
 import  json
+from pathlib import Path
 
 class logincontroller:
     def __init__(self,loginv,appcontext):
@@ -16,8 +17,10 @@ class logincontroller:
         self.loginv.logoutBtn.clicked.connect(self.logout)
 
     def logout(self):
-        if os.path.exists("session.json"):
-            os.remove("session.json")
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        session_path = appdata_dir / "session.json"
+        if session_path.exists():
+            os.remove(session_path)
             self.loginv.close()
             self.appcontextw.openStarted()
     
@@ -25,8 +28,10 @@ class logincontroller:
         self.loginv.close()
     
     def getID(self):
-        if os.path.exists("session.json"):
-            with open("session.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        session_path = appdata_dir / "session.json"
+        if session_path.exists():
+            with open(session_path, "r") as f:
                 data = json.load(f)
                 return data.get("id")
 
@@ -56,7 +61,10 @@ class logincontroller:
 
     def saveLogInfo(self,getid,getUsername,worknumber):
         session_data = {"id":getid,"username": getUsername,"worknumber":worknumber}
-        with open("user.json", "w") as f:
+        save_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        save_dir.mkdir(parents=True, exist_ok=True)
+        json_path = save_dir / "user.json"
+        with open(json_path, "w") as f:
             json.dump(session_data, f)
     
     def registerBtn(self):

@@ -1,7 +1,7 @@
 import os,json
 from datetime import datetime
 from models.model import store
-
+from pathlib import Path
 
 class addStockC:
     def __init__(self,adstock,appcontext,namepart,stock,codepart,typepart):
@@ -48,13 +48,17 @@ class addStockC:
                 
     
     def getID(self):
-        if os.path.exists("user.json"):
-            with open("user.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("id")
     
     def getuser(self):
-        if os.path.exists("user.json"):
-            with open("user.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("username")

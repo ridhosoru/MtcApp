@@ -6,7 +6,7 @@ from PyQt6.QtCore import Qt,QPoint, QTimer
 from PyQt6.QtWidgets import QMessageBox, QTableWidget, QTableWidgetItem
 import os
 import json
-
+from pathlib import Path
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QSize
 
@@ -22,8 +22,10 @@ class loginView(QtWidgets.QMainWindow):
         self.acc_name.setText("Hi, "+accname)
     
     def getUsernameAcc(self):
-        if os.path.exists("session.json"):
-            with open("session.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        session_path = appdata_dir / "session.json"
+        if session_path.exists():
+            with open(session_path, "r") as f:
                 data = json.load(f)
                 return data.get("username")
         
@@ -90,8 +92,10 @@ class mainView(QtWidgets.QMainWindow):
     
     
     def getUsernameUsr(self):
-        if os.path.exists("user.json"):
-            with open("user.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("username")
 

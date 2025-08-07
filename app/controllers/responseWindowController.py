@@ -4,6 +4,8 @@ from datetime import datetime
 from PyQt6.QtWidgets import  QTableWidgetItem
 from PyQt6.QtCore import QTimer
 import os,json
+from pathlib import Path
+
 class responseWindowController:
     def __init__(self,responView,appcontext):
         self.responView = responView
@@ -36,8 +38,10 @@ class responseWindowController:
                 self.appcontextw.openmainWindow()
     
     def getID(self):
-        if os.path.exists("user.json"):
-            with open("user.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("id")  
             

@@ -10,7 +10,7 @@ from views.view import (
     conTakePart, addStock
 )
 
-
+from pathlib import Path
 from controllers.mainController import mainWinC
 from controllers.loginController import logincontroller
 from controllers.registerWindowController import registerwindowcontroller
@@ -101,9 +101,12 @@ class appcontext:
     def run(self):
         self.handle_koneksi(blocking=True)
         self.setupAutoRefresh()
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        session_path = appdata_dir / "session.json"
+        user_path = appdata_dir / "user.json"
 
-        if os.path.exists("session.json"):
-            if os.path.exists("user.json"):
+        if session_path.exists():
+            if user_path.exists():
                 self.openmainWindow()
             else:
                 self.open_loginwindow()

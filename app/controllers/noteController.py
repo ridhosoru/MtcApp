@@ -2,6 +2,7 @@ import json,os
 from models.model import addNote
 from PyQt6.QtWidgets import QMessageBox
 from datetime import datetime
+from pathlib import Path
 
 class noteCon:
     def __init__(self,notev,appcontext):
@@ -19,14 +20,18 @@ class noteCon:
     
 
     def getID(self):
-        if os.path.exists("user.json"):
-            with open("user.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("id")
             
     def getUsername(self):
-        if os.path.exists("user.json"):
-            with open("user.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("username")
     

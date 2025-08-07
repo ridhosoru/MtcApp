@@ -3,6 +3,7 @@ from PyQt6.QtCore import  QTimer
 from datetime import datetime
 from PyQt6.QtWidgets import  QTableWidgetItem
 import os, json
+from pathlib import Path
 
 class closeRcontroller:
     def __init__(self,closeV,appcontext):
@@ -38,13 +39,17 @@ class closeRcontroller:
                 self.closeV.close()
     
     def getUsername(self):
-        if os.path.exists("user.json"):
-            with open("user.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("username") 
     def getID(self):
-        if os.path.exists("user.json"):
-            with open("user.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("id")  
             

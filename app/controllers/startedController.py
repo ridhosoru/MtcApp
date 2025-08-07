@@ -7,6 +7,8 @@ import smtplib
 from PyQt6.QtCore import QTimer
 from models.model import registerSModel, LoginSModel
 from PyQt6.QtWidgets import QMessageBox
+from pathlib import Path
+import os
 
 
 class startedC :
@@ -143,7 +145,11 @@ class startedC :
     
     def saveLogInfo(self,getid,getUsername):
         session_data = {"id":getid,"username": getUsername}
-        with open("session.json", "w") as f:
+        save_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        save_dir.mkdir(parents=True, exist_ok=True)
+        
+        json_path = save_dir / "session.json"
+        with open(json_path, "w") as f:
             json.dump(session_data, f)
 
 

@@ -4,6 +4,7 @@ from PyQt6.QtCore import Qt
 import os,json
 import shutil
 from models.model import store
+from pathlib import Path
 
 class addStoreConn:
     def __init__(self,adstore,appcontext):
@@ -74,8 +75,10 @@ class addStoreConn:
 
 
     def getID(self):
-        if os.path.exists("session.json"):
-            with open("session.json", "r") as f:
+        appdata_dir = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"
+        user_path = appdata_dir / "user.json"
+        if user_path.exists():
+            with open(user_path, "r") as f:
                 data = json.load(f)
                 return data.get("id")
         
