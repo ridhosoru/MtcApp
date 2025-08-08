@@ -40,10 +40,10 @@ class addStoreConn:
     def saveimg(self,codePart):
         try :
             img = self.file_path
-            self.folderImg = "storeimg"
-            os.makedirs(self.folderImg, exist_ok=True)
+            self.folderImg = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"/ "image_folder"
+            self.folderImg.mkdir(parents=True, exist_ok=True)
             file_name = codePart+".jpg"
-            destination = os.path.join(self.folderImg, file_name)
+            destination = self.folderImg / file_name
             shutil.copy(img, destination)
             return True
         except :
@@ -60,6 +60,7 @@ class addStoreConn:
 
         if not self.saveimg(codePart):
             return
+        # folder = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"/ "image_folder"
         imgPath = os.path.join("storeimg", codePart + ".jpg")
 
         try:
