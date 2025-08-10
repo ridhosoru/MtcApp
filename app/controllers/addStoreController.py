@@ -60,8 +60,8 @@ class addStoreConn:
 
         if not self.saveimg(codePart):
             return
-        # folder = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"/ "image_folder"
-        imgPath = os.path.join("storeimg", codePart + ".jpg")
+        folder = Path(os.getenv("LOCALAPPDATA")) / "MaintenanceApp"/ "image_folder"
+        imgPath = os.path.join(folder, codePart + ".jpg")
 
         try:
             sendAdstore = store.addstore(self,id,namePart,codePart,typePart,stockPart,imgPath)
