@@ -269,12 +269,12 @@ class mainWinC:
     
     def LocInput(self):
         id = self.getID()
-        name = self.mainView.locInLine.text()
+        name = self.mainView.LocInLine.text()
         try :
             inpMach = Regprod.LocInp(self,id,name)
             if inpMach:
-                QMessageBox.information(self.mainView,"success","Success add machine name")
-                self.mainView.locInLine.clear()
+                QMessageBox.information(self.mainView,"success","Success add Location")
+                self.mainView.LocInLine.clear()
         
         except Exception as e :
             QMessageBox.warning(self.mainView,"fail",str(e))
@@ -285,7 +285,7 @@ class mainWinC:
         try :
             inpMach = Regprod.probInp(self,id,name)
             if inpMach:
-                QMessageBox.information(self.mainView,"success","Success add machine name")
+                QMessageBox.information(self.mainView,"success","Success add Problem")
                 self.mainView.probInLine.clear()
         
         except Exception as e :
